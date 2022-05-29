@@ -6,6 +6,4 @@
 test.ipynb
 test.py
 *.vs/
-./utfc/.ipynb_checkpoints/
-*.ipynb_checkpoints
-test.ipynb
+*/.ipynb_checkpoints

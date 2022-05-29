@@ -1,0 +1,7 @@
+*.pyc
+/__pycache__
+/utfc/__pycache__
+*.DS_Store/
+/.idea/
+*.ipynb_checkpoints/
+*__pycache__*/

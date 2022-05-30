@@ -7,3 +7,4 @@ test.ipynb
 test.py
 *.vs/
 */.ipynb_checkpoints
+.DS_Store

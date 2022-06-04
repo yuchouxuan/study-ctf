@@ -69,10 +69,10 @@ def BoolBi(chk,pl1="",pl2="",abl=Alphabet):
     print('- ' * 60)
     return strx
 
-def BoolBi_like(chk,pl1="",pl2="",abl=alike):
+def BoolBi_like(chk,pl1="",pl2="",abl=alike,start='',startn=1):
     print(chk('1=0'), chk('1=1'))
     l=500
-    for i in range(200):
+    for i in range(startn,200):
         pl=pl1.format(i)
         print(i,end=' ')
         if chk(pl):
@@ -82,8 +82,8 @@ def BoolBi_like(chk,pl1="",pl2="",abl=alike):
     print('- '*60)
     printc('Length:%d'%l,cmd_color.light_green)
 
-    strx = ''
-    for i in range(1,l+1):
+    strx = start
+    for i in range(len(start),l+1):
         printbi(i,strx,l+5)
         for j in abl:
             pl=pl2.format(strx+j)

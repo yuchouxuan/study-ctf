@@ -3,7 +3,7 @@ from urllib.parse import urlparse, urlunsplit, urlsplit
 from urllib import parse
 import itertools
 import rstr
-
+import re
 
 WdF = [  # 字频率矩阵
     0.0651738, 0.0124248, 0.0217339, 0.0349835, 0.1041442, 0.0197881,
@@ -313,7 +313,18 @@ class CharF:
         return ret;
 
     @staticmethod
-    def ReplaceAll(s='', l1=[], l2=[]):
+    def ReplaceAll(s='', ls=[], lr=[]):
+        if len(ls) == 0:
+            return s
+        l1=[]
+        l2=[]
+        if isinstance(ls[0],str):
+            l1=ls
+            l2=lr
+        else:
+            for i in ls:
+                l1.append(i[0])
+                l2.append(i[1])
         i = min(len(l1), len(l2))
         for j in range(i):
             s = s.replace(l1[j], l2[j])

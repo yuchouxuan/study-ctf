@@ -1,77 +1,76 @@
-
 <?php
 
+include('file_class.php');
+include('cache_class.php');
 
-session_start();
-include('render/render_class.php');
-include('render/db_class.php');
-
-
-$action=$_GET['action'];
-
-
-if(!isset($action)){
-	if(isset($_COOKIE['user'])){
-		$c=$_COOKIE['user'];
-		if(preg_match('/\:|\,/', $c)){
-			$user=unserialize($c);
-		}
-		if($user){
-			templateUtil::render('index');
-		}else{
-			header('location:index.php?action=login');
-		}
-	}else{
-		header('location:index.php?action=login');
+class templateUtil {
+	public static function render($template,$arg=array()){
+		$templateContent=fileUtil::read('templates/'.$template.'.sml');
+		$cache=templateUtil::shade($templateContent,$arg);
+		echo $cache;
 	}
-	die();	
+	public static  function shade($templateContent,$arg=array()){
+		$templateContent=templateUtil::checkImage($templateContent,$arg);
+		$templateContent=templateUtil::checkConfig($templateContent);
+		$templateContent=templateUtil::checkVar($templateContent,$arg);
+		foreach ($arg as $key => $value) {
+			$templateContent=str_replace('{{'.$key.'}}', $value, $templateContent);
+		}
+		return $templateContent;
+	}
+
+	public static function checkImage($templateContent,$arg=array()){
+		foreach ($arg as $key => $value) {
+			if(preg_match('/gopher|file/i', $value)){
+				$templateContent=str_replace('{{img:'.$key.'}}', '', $templateContent);
+			}
+			if(stripos($templateContent, '{{img:'.$key.'}}')){
+				$encode='';
+				if(file_exists(__DIR__.'/../cache/'.md5($value))){
+					$encode=file_get_contents(__DIR__.'/../cache/'.md5($value));
+				}else{
+					$ch=curl_init($value);
+					curl_setopt($ch, CURLOPT_HEADER, 0);
+					curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+					$result=curl_exec($ch);
+					curl_close($ch);
+					$ret=chunk_split(base64_encode($result));
+					$encode = 'data:image/jpg/png/gif;base64,' . $ret;
+					file_put_contents(__DIR__.'/../cache/'.md5($value), $encode);
+				}
+				$templateContent=str_replace('{{img:'.$key.'}}', $encode, $templateContent);
+			}
+			
+		}
+		return $templateContent;
+	}
+	public static function checkConfig($templateContent){
+		$config = unserialize(file_get_contents(__DIR__.'/../config/settings'));
+		foreach ($config as $key => $value) {
+			if(stripos($templateContent, '{{config:'.$key.'}}')){
+				$templateContent=str_replace('{{config:'.$key.'}}', $value, $templateContent);
+			}
+			
+		}
+		return $templateContent;
+	}
+
+	public static function checkVar($templateContent,$arg){
+		$db=new db();
+		foreach ($arg as $key => $value) {
+			if(stripos($templateContent, '{{var:'.$key.'}}')){
+				if(!preg_match('/\(|\[|\`|\'|\"|\+|nginx|\)|\]|include|data|text|filter|input|file|require|GET|POST|COOKIE|SESSION|file/i', $value)){
+					eval('$v='.$value.';');
+					$templateContent=str_replace('{{var:'.$key.'}}', $v, $templateContent);
+				}
+				
+			}
+		}
+		return $templateContent;
+	}
+
+
 }
 
-switch ($action) {
-	case 'check':
-		$username=$_POST['username'];
-		$password=$_POST['password'];
-		if(!preg_match('/file|innodb|sys|mysql/i', $username)){
-			$sql = "select username,nickname from user where username = '".$username."' and password='".md5($password)."' order by id limit 1";
-			$db=new db();
-			$user=$db->select_one_array($sql);
-		}
-		if($user){
-			$_SESSION['user']=$user;
-			header('location:index.php?action=index');
-		}else{
-			templateUtil::render('error');
-		}
-		break;
-	case 'clear':
-		system('rm -rf cache/*');
-		die('cache clear');
-		break;
-	case 'login':
-		templateUtil::render($action);
-		break;
-	case 'index':
-		$user=$_SESSION['user'];
-		if($user){
-			templateUtil::render('index',$user);
-		}else{
-			header('location:index.php?action=login');
-		}
-		break;
-	case 'view':
-		$user=$_SESSION['user'];
-		if($user){
-			templateUtil::render($_GET['page'],$user);
-		}else{
-			header('location:index.php?action=login');
-		}
-		break;
-	case 'logout':
-		session_destroy();
-		header('location:index.php?action=login');
-		break;
-	default:
-		templateUtil::render($action);
-		break;
-}
+
 

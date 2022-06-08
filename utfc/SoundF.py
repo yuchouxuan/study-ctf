@@ -21,7 +21,7 @@ class WavF:
             print('params:', self.params)
             self.nchannels, self.sampwidth, self.framerate, self.nframes = self.params[:4]
             self.strData = f.readframes(self.nframes)  # 读取音频，字符串格式
-            self.waveData = np.frombuffer(self.strData, dtype=np.int16).tolist()  # 将字符串转化为int
+            self.waveData = np.frombuffer(self.strData, dtype=np.int16).reshape(-1,self.nframes)  # 将字符串转化为int
 
     def showit(self):
         time = np.arange(0, self.nframes) * (1.0 / self.framerate)
@@ -92,21 +92,8 @@ def GetSoundData(fn=''):
     ret['waveData'] =[x.get_array_of_samples() for x in sds]
     return ret
 
+
+
+
 if __name__ == '__main__':
-    ret = GetSoundData('z:/b.mp3')
-
-    import matplotlib.pyplot as plt
-
-    plt.figure(figsize=(20, 6))
-    plt.subplot(311)
-    plt.plot(ret['waveData'][1][200000::500])
-    plt.subplot(312)
-    plt.plot(ret['waveData'][1][200000:500000])
-    a = np.abs(np.fft.fft(ret['waveData'][1][1000000:]))
-    plt.subplot(313)
-    '''
-    fft 的 x轴 ： np.linspace(0,采样率//2,长度//2)
-    '''
-    fpx = np.linspace(0, 44100 // 2, len(a) // 2)
-    plt.plot(fpx, a[:len(a) // 2])
-    plt.show()
+    pass

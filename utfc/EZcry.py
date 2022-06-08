@@ -114,7 +114,7 @@ class MYB:  # 莽一波
         if isinstance(flag2find,str):
             flag2find = [flag2find]
         for flag in flag2find:
-            flaglist.add(flag)
+            # flaglist.add(flag)
             nflag = CharF.s2n(flag)
             flaglist.add(hex(nflag)[2:])
             flaglist.add(base64.b64encode(flag.encode()).decode().replace('=','').lower())
@@ -123,6 +123,7 @@ class MYB:  # 莽一波
 
         def func_findflag(txt=''):
            txt =str(txt)
+           # print('>>>>>>>>>>>',flaglist)
            for i in flaglist:
                if i.lower() in txt.lower() :
                    return True

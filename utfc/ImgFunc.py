@@ -8,6 +8,8 @@ import imageio
 import matplotlib.pyplot as plt
 import tqdm
 import zlib
+import re
+import utfc.os_lsb as os_lsb
 
 '''opencv 其他常用函数
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -298,9 +300,10 @@ class PicF:  #
 
 
 class pngFunc(ImgBits):
+    def crc_wh(self):
+        self.crc_blaster(self.fn)
     @staticmethod
     def crc_blaster(fn='', cx=0):  # PNG求宽高
-
         m = open(fn, "rb").read()
         k = 0
         if cx == 0:
@@ -533,4 +536,38 @@ def Tupper(K,H = 17,W = 106):
     ylabels[-1] = f"K+{H}"
     plt.yticks(yticks, ylabels)
     plt.grid(b=True, linewidth=0.5)
+    plt.show()
+
+def chkimg(fn,find_list={'flag'},lsbpws='123456'):
+    pf=pngFunc(fn)
+    print('- '*40)
+
+    with open(fn,'rb') as f:
+        x = f.read()
+        for i in find_list:
+            stf = b'('+i.encode()+ b'.{5})'
+            for j in re.findall(stf,x,re.I):
+                print(j)
+
+    print('- '*40)
+    try:
+        os_lsb.analyse(fn)
+        os_lsb.extract(fn,f'{fn}.txt',lsbpws)
+    except: pass
+
+    print('- ' * 40)
+
+    cvp =cv2.imread(fn,-1)
+    w,h,n = cvp.shape
+    plt.figure(figsize=(10*n,80))
+
+    for i in range(8):
+        for j in range(n):
+            plt.subplot(8,n,n*i+j+1)
+            plt.tight_layout()
+            plt.title(f'Bit{i},Chi{j}')
+            plt.axis('off')
+            plt.xticks([])
+            plt.yticks([])
+            plt.imshow((cvp[:,:,j]>>i)&1)
     plt.show()

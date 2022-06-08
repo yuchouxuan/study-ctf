@@ -8,5 +8,4 @@ test.py
 *.vs/
 */.ipynb_checkpoints
 .DS_Store
-test.php
-test.php
+test.*

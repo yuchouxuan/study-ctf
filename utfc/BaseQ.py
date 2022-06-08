@@ -16,7 +16,6 @@ class BaseQ:
         '36': b'0123456789abcdefghijklmnopqrstuvwxyz',
         '58': b'123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz',
         '58b': b'rpshnaf39wBUDNEGHJKLM4PQRST7VWXYZ2bcdeCg65jkm8oFqi1tuvAxyz',
-
         '62':  b'0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz',
         '62a': b'0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',
         '62b': b"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
@@ -128,7 +127,10 @@ class BaseQ:
         if 'flag' in c: return
         for i in base:
             try:
-                c = i(c).decode()
+                try:
+                    c = i(c)
+                except:
+                    c=i(c.decode())
                 print(i.__name__,c)
                 continue
             except:

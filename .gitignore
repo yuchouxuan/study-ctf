@@ -5,7 +5,9 @@
 */null
 test.ipynb
 test.py
+test.php
+test.js
 *.vs/
 */.ipynb_checkpoints
 .DS_Store
-*/test.*
+*test.*

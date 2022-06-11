@@ -6,6 +6,7 @@ from PIL import Image, ImageDraw, ImageFont
 import pyzbar.pyzbar as pyzbar
 import imageio
 import matplotlib.pyplot as plt
+
 import tqdm
 import zlib
 import re
@@ -431,7 +432,7 @@ for i in range(20,50):
 '''
 import cv2
 import random
-def bwmdecode(fn1='z:/2.png',fn2='z:/1.png',alpha=3.0, seed = 20160930):
+def bwmdecode(fn1='z:/ctf/2.png',fn2='z:/ctf/1.png',alpha=1.0, seed = 20160930):
     img = cv2.imread(fn1)
     img_wm = cv2.imread(fn2)
     random.seed(seed)
@@ -494,6 +495,8 @@ def img2BF(fn=''):
                 plt.bar(x+0.5, bottom=y, height=1,
                         width=1, linewidth=0, color="black")
             K_ >>= 1
+
+
 import textwrap
 def Tupper(K,H = 17,W = 106):
     plt.figure(figsize=(6.8, 4), dpi=100)
@@ -538,14 +541,14 @@ def Tupper(K,H = 17,W = 106):
     plt.grid(b=True, linewidth=0.5)
     plt.show()
 
-def chkimg(fn,find_list={'flag'},lsbpws='123456'):
+def chkimg(fn,find_list={'key','flag','Zmxh','ctf'},lsbpws='123456'):
     pf=pngFunc(fn)
     print('- '*40)
 
     with open(fn,'rb') as f:
         x = f.read()
         for i in find_list:
-            stf = b'('+i.encode()+ b'.{5})'
+            stf = b'('+i.encode()+ b'.{10})'
             for j in re.findall(stf,x,re.I):
                 print(j)
 

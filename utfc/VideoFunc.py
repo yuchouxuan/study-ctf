@@ -47,10 +47,9 @@ class VideoFunc:
         '''cc
         MJPG   ->.avi
         mp4v   ->.mp4
-
         '''
         writer = cv2.VideoWriter_fourcc(*cc)
         videoWriter = cv2.VideoWriter(fn, writer, self.fps, self.size)
-        for i in tqdm.tqdm(self.frames[:10]):
+        for i in tqdm.tqdm(self.frames):
             videoWriter.write(np.array(i))
         videoWriter.release()

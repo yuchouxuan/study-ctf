@@ -566,7 +566,7 @@ def chkimg(fn,find_list={'key','flag','Zmxh','ctf'},lsbpws='123456'):
 
     for i in range(8):
         for j in range(n):
-            plt.subplot(8,n,n*i+j+1)
+            plt.subplot(8*n,1,n*i+j+1)
             plt.tight_layout()
             plt.title(f'Bit{i},Chi{j}')
             plt.axis('off')

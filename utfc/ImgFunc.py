@@ -11,6 +11,7 @@ import tqdm
 import zlib
 import re
 import utfc.os_lsb as os_lsb
+from utfc.lsb_decode import *
 
 '''opencv 其他常用函数
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -562,8 +563,19 @@ def chkimg(fn,find_list={'key','flag','Zmxh','ctf'},lsbpws='123456'):
 
     cvp =cv2.imread(fn,-1)
     w,h,n = cvp.shape
-    plt.figure(figsize=(10*n,80))
-
+    for i in range(8):
+        for j in range(n):
+            plt.figure(figsize=(h/10,w/10),dpi=10)
+            plt.tight_layout()
+            print(f'Bit{i},Chi{j}')
+            plt.axis('off')
+            plt.xticks([])
+            plt.yticks([])
+            plt.imshow((cvp[:,:,j]>>i)&1)
+            plt.show()
+    plt.show()
+    plt.figure(figsize=(30,15))
+    print('L:1')
     for i in range(8):
         for j in range(n):
             plt.subplot(8*n,1,n*i+j+1)
@@ -572,5 +584,41 @@ def chkimg(fn,find_list={'key','flag','Zmxh','ctf'},lsbpws='123456'):
             plt.axis('off')
             plt.xticks([])
             plt.yticks([])
-            plt.imshow((cvp[:,:,j]>>i)&1)
+            plt.imshow((cvp[:1,:200,j]>>i)&1)
+    plt.show()
+    print('L:-1')
+    plt.figure(figsize=(30,15))
+    for i in range(8):
+        for j in range(n):
+            plt.subplot(8*n,1,n*i+j+1)
+            plt.tight_layout()
+            plt.title(f'Bit{i},Chi{j}')
+            plt.axis('off')
+            plt.xticks([])
+            plt.yticks([])
+            plt.imshow((cvp[-1:,:200,j]>>i)&1)
+    plt.show()
+    print('R:1')
+    plt.figure(figsize=(20,10))
+    for i in range(8):
+        for j in range(n):
+            plt.subplot(1,8*n,n*i+j+1)
+            plt.tight_layout()
+            plt.title(f'Bit{i},Chi{j}')
+            plt.axis('off')
+            plt.xticks([])
+            plt.yticks([])
+            plt.imshow((cvp[:100,:1,j]>>i)&1)
+    plt.show()
+    print('R:-1')
+    plt.figure(figsize=(20,10))
+    for i in range(8):
+        for j in range(n):
+            plt.subplot(1,8*n,n*i+j+1)
+            plt.tight_layout()
+            plt.title(f'Bit{i},Chi{j}')
+            plt.axis('off')
+            plt.xticks([])
+            plt.yticks([])
+            plt.imshow((cvp[:100,-1:,j]>>i)&1)
     plt.show()

@@ -135,6 +135,18 @@ class CharF:
             b = '0' * (lenb - (len(b) % lenb)) + b
         return CharF.num2str(b, spl=8, bs=2)
 
+    @staticmethod
+    def bin(inp, lenb=8,cut=False,bs=10):
+        if isinstance(inp, str):
+            inp = int(inp, bs)
+        b = bin(inp)[2:]
+        if lenb != 0 and len(b) < lenb :
+            b = '0' * (lenb - len(b)) + b
+        if cut  and len(b) > lenb:
+            return b[-lenb:]
+        return b
+
+
 
     @staticmethod
     #生成等效url字符-》Unicode

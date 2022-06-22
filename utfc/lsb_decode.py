@@ -76,12 +76,13 @@ def num2order(num):
     return ''.join([str(i) for i in range(8) if int2bytes(num)[::-1][i]=='1'])
 
 def exp(fn,bits="0123",channel="RGB",axises='x',_type='lsb',full=0,):
+    tempfn=''
     for i in range(1,len(fn)):
         if fn[-i] == '/' or fn[-i] == '\\':
             tempfn = fn[:-i]+'/tmp.xyz'
             break
     d = decodelsb(ori_pic=fn, order=''.join(bits), plane=''.join(channel), axis=axises, _type=_type,full=full)
-    with open(tmpfn,'wb') as f:
+    with open(tempfn,'wb') as f:
         f.write(d)
         sf.printc('[+] FileOUT -> '+tempfn, sf.cmd_color.green)
 
@@ -109,8 +110,6 @@ def myb(fn,bits="0123",channel="RGB",axises='xy',full=0):
                             print('- '*80)
                             print('[-]', ''.join(order), ''.join(plane), axis, type,'|',guess)
                             print(d[:80])
-                        if '02356' in order:
-                            print(d[:100])
                         if b"ctf" in d or b'flag' in d or b'CTF' in d:
                             sf.printc('[+] FIND -> '+str(d),sf.cmd_color.green)
                         if "Zlib compressed data" in guess:
@@ -124,6 +123,13 @@ def myb(fn,bits="0123",channel="RGB",axises='xy',full=0):
                                 with open(tempfn+'.zip', 'wb') as f:
                                     f.write(d)
                                 sf.printc('[+] FileOUT -> '+tempfn+'.zip', sf.cmd_color.green)
+                            except:
+                                pass
+                        if ".PNG file" in guess:
+                            try:
+                                with open(tempfn+'.zip', 'wb') as f:
+                                    f.write(d)
+                                sf.printc('[+] FileOUT -> '+tempfn+'.png', sf.cmd_color.green)
                             except:
                                 pass
 

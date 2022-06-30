@@ -353,6 +353,16 @@ def GetSCode(urlroot='', fileh='', filet='', head='', addurl=[]):
                 ret[req] = i + ', '
         except:
             pass
+    for i in tqdm.tqdm(PL_include):
+        try:
+            resp = requests.get(urlroot + i)
+            req = '%d, %s' % (resp.status_code, len(resp.text))
+            if req in ret:
+                ret[req] += i + ', '
+            else:
+                ret[req] = i + ', '
+        except:
+            pass
     print()
     for i in sorted(ret, reverse=True):
         if i.startswith('4'):

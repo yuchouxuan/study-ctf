@@ -57,12 +57,8 @@ def decodelsb(ori_pic,order,plane='RGB',axis='x',_type='lsb',full=0):
     if full==0:
         if axis=='x':
             h=1
-            if w>100:
-                w=100
         else:
-            w=10
-            if h>100:
-                h=100
+            w=1
     if axis=='x':
         for j in range(h):
             for i in range(w):

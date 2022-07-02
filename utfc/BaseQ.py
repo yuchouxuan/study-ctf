@@ -123,20 +123,28 @@ class BaseQ:
         BaseQ.DcStrQJT(c)
 
     @staticmethod
-    def DcStrQJT(c=''):
+    def DcStrQJT(c='',findflag=['flag','ctf'],fromb='|'):
         base = [base64.b16decode, base64.b32decode, base58.b58decode, base64.b64decode, base64.b85decode, base91.decode]
-        if 'flag' in c: return
         for i in base:
-            try:
+            try :
                 try:
                     c = i(c)
                 except:
-                    c=i(c.decode())
-                print(i.__name__,c)
-                continue
-            except:
-                pass
-
+                    try:   c=i(c.decode())
+                    except:continue
+                path = fromb + '->' + i.__name__+'|'
+                enc = c
+                if isinstance(enc,bytes):
+                    enc=enc.decode()
+                if (len(enc) > 1):
+                    for x in findflag:
+                        if x in enc:
+                            printc(path+enc, cmd_color.light_green)
+                            break;
+                    else:
+                        print(path, c)
+                    BaseQ.DcStrQJT(c, fromb=path)
+            except: pass
 
 if __name__ == "__main__":
     print(BaseQ.Dc(''))

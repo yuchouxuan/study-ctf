@@ -129,6 +129,7 @@ class MYB:  # 莽一波
                    return True
            return False
         myb = MYB.go(c)
+        BaseQ.DcStrQJT(c,findflag=flag2find)
         p(myb, func_findflag)
 
     @staticmethod

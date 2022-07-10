@@ -37,7 +37,7 @@ class zipF (zipfile.ZipFile):
             ab=[x.encode() for x in ab]
         crc = self.NameToInfo[fn].CRC
         counter = len(ab) ** self.NameToInfo[fn].file_size
-        for i in tqdm.trange(counter):
+        for i in range(counter):
             trying=[]
             k = i
             for j in range(self.NameToInfo[fn].file_size):

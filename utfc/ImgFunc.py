@@ -356,6 +356,23 @@ class pngFunc(ImgBits):
             if 'IEND' == typex:
                 print('%4d' % cont, '----', '00000000', '00000000',  '[ ]', '%-5d' % (len(self.imgb) - sp), '%-5x' % sp, self.imgb[sp:])
                 self.png_chunk.append([cont, sp, '----',  len(self.imgb) - sp,'00000000','00000000' ,self.imgb[sp:]])
+            
+        print('Filters:')
+        self.Filters = self.getFilters() 
+
+    def getFilters(self):
+        bit=b''
+        for i in self.png_chunk:
+            if i[2] =="IDAT":
+                bit+=i[-1]
+        bit = zlib.decompress(bit)
+        linew = self.weight*self.channels
+        bf = []
+        for i in range(self.height):
+            bf.append(bit[linew*i+i])
+        print(''.join(map(str,bf)))
+        return bf
+
     def getunZip(self,cn=1):
         bits=b''
         if isinstance(cn,list):
@@ -563,6 +580,8 @@ def chkimg(fn,find_list={'key','flag','Zmxh','ctf'},lsbpws='123456'):
 
     cvp =cv2.imread(fn,-1)
     w,h,n = cvp.shape
+
+
     for i in range(8):
         for j in range(n):
             plt.figure(figsize=(h/10,w/10),dpi=10)

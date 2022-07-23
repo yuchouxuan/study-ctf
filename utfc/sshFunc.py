@@ -1,4 +1,5 @@
 import paramiko as sshc
+import time
 class SSH:
     def __init__(self, ip, un, pwd, port=22):
         self.ip = ip
@@ -13,8 +14,11 @@ class SSH:
         self.channel.invoke_shell()
 
     def __del__(self):
-        self.channel.close()
-        self.Client.close()
+        try:
+            self.channel.close()
+            self.Client.close()
+        except:
+            pass
 
     def run(self, cmd=''):
         rt = b''

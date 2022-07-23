@@ -358,7 +358,10 @@ class pngFunc(ImgBits):
                 self.png_chunk.append([cont, sp, '----',  len(self.imgb) - sp,'00000000','00000000' ,self.imgb[sp:]])
             
         print('Filters:')
-        self.Filters = self.getFilters() 
+        try:
+            self.Filters = self.getFilters() 
+        except:
+            pass
 
     def getFilters(self):
         bit=b''

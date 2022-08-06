@@ -362,6 +362,13 @@ class pngFunc(ImgBits):
             self.Filters = self.getFilters() 
         except:
             pass
+    def getuzipall(self):
+        bit=b''
+        for i in self.png_chunk:
+            if i[2] =="IDAT":
+                bit+=i[-1]
+        return zlib.decompress(bit)
+
 
     def getFilters(self):
         bit=b''

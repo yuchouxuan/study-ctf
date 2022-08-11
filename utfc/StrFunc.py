@@ -14,6 +14,10 @@ WdF = [  # 字频率矩阵
 
 
 class CharF:
+    @staticmethod # 字符串=>\x??\??
+    def str2Chex(strin:str , mask='\\x'):
+        return ''.join([mask+'{:02x}'.format(ord(c)) for c in strin])
+    
     @staticmethod #生成随机符合正则的字符串
     def randRegX(rt = 'B+v*'):
         ret = rstr.xeger(rt)
@@ -423,6 +427,7 @@ class CharF:
 
 
 class cmd_color:
+
     none = "\033[0m"
     rev = '\033[7m'
     black = "\033[0;30m"

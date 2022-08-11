@@ -237,9 +237,9 @@ class ImgBits(imgBase):  # 像素操作
         rtl = []
         im = Image.open(fn)
         print("FrameCont:", im.n_frames)
-        for i in range(im.n_frames):
+        for i in tqdm.trange(im.n_frames):
             im.seek(i)
-            print('duration[04%d] :'%i,im.info['duration'])
+            # print('duration[04%d] :'%i,im.info['duration'])
             CF = Image.new("RGBA", im.size)
             CF.paste(im)
             img = cv.cvtColor(np.asarray(CF), cv.COLOR_RGB2BGR)
@@ -460,13 +460,26 @@ for i in range(20,50):
 '''
 import cv2
 import random
-def bwmdecode(fn1='z:/ctf/2.png',fn2='z:/ctf/1.png',alpha=1.0, seed = 20160930):
+def p2n(fn):
+    return np.array(Image.open(fn))[:,:,::-1]
+
+def bwmdecode(fn1='z:/ctf/2.png',fn2='z:/ctf/1.png',alpha=1.0, seed = 20160930,oldseed=True):
     img = cv2.imread(fn1)
     img_wm = cv2.imread(fn2)
-    random.seed(seed)
+    if img == None:
+        img = p2n(fn1)
+        img_wm = p2n(fn2)
+    if oldseed: random.seed(seed,version=1)
+    else: random.seed(seed)
+    random.seed(seed,version=1)
     m, n = list(range(int(img.shape[0] * 0.5))), list(range(img.shape[1]))
-    random.shuffle(m)
-    random.shuffle(n)
+    if oldseed:
+        random.shuffle(m,random=random.random)
+        random.shuffle(n,random=random.random)
+    else:
+        random.shuffle(m)
+        random.shuffle(n)
+        
     f1 = np.fft.fft2(img)
     f2 = np.fft.fft2(img_wm)
     rwm = (f2 - f1) / alpha
@@ -570,7 +583,10 @@ def Tupper(K,H = 17,W = 106):
     plt.show()
 
 def chkimg(fn,find_list={'key','flag','Zmxh','ctf'},lsbpws='123456'):
-    pf=pngFunc(fn)
+    try:
+        pf=pngFunc(fn)
+    except:
+        pass
     print('- '*40)
 
     with open(fn,'rb') as f:
@@ -585,10 +601,13 @@ def chkimg(fn,find_list={'key','flag','Zmxh','ctf'},lsbpws='123456'):
         os_lsb.analyse(fn)
         os_lsb.extract(fn,f'{fn}.txt',lsbpws)
     except: pass
-
+    print("可以用 ImgFunc.mpb 试试看Y4大佬的脚本\n myb(fn,bits=\"01234\",channel=\"RGB\",axises='xy',full=0)")
     print('- ' * 40)
 
+
     cvp =cv2.imread(fn,-1)
+    if cvp==None:
+        cvp = np.array(Image.open(fn))[:,:,::-1]
     w,h,n = cvp.shape
 
 
@@ -596,7 +615,7 @@ def chkimg(fn,find_list={'key','flag','Zmxh','ctf'},lsbpws='123456'):
         for j in range(n):
             plt.figure(figsize=(h/10,w/10),dpi=10)
             plt.tight_layout()
-            print(f'Bit{i},Chi{j}')
+            print(f'B{i},C{j}')
             plt.axis('off')
             plt.xticks([])
             plt.yticks([])
@@ -609,7 +628,7 @@ def chkimg(fn,find_list={'key','flag','Zmxh','ctf'},lsbpws='123456'):
         for j in range(n):
             plt.subplot(8*n,1,n*i+j+1)
             plt.tight_layout()
-            plt.title(f'Bit{i},Chi{j}')
+            plt.title(f'B{i},C{j}')
             plt.axis('off')
             plt.xticks([])
             plt.yticks([])
@@ -621,7 +640,7 @@ def chkimg(fn,find_list={'key','flag','Zmxh','ctf'},lsbpws='123456'):
         for j in range(n):
             plt.subplot(8*n,1,n*i+j+1)
             plt.tight_layout()
-            plt.title(f'Bit{i},Chi{j}')
+            plt.title(f'B{i},C{j}')
             plt.axis('off')
             plt.xticks([])
             plt.yticks([])
@@ -633,7 +652,7 @@ def chkimg(fn,find_list={'key','flag','Zmxh','ctf'},lsbpws='123456'):
         for j in range(n):
             plt.subplot(1,8*n,n*i+j+1)
             plt.tight_layout()
-            plt.title(f'Bit{i},Chi{j}')
+            plt.title(f'B{i},C{j}')
             plt.axis('off')
             plt.xticks([])
             plt.yticks([])
@@ -645,9 +664,72 @@ def chkimg(fn,find_list={'key','flag','Zmxh','ctf'},lsbpws='123456'):
         for j in range(n):
             plt.subplot(1,8*n,n*i+j+1)
             plt.tight_layout()
-            plt.title(f'Bit{i},Chi{j}')
+            plt.title(f'B{i},C{j}')
             plt.axis('off')
             plt.xticks([])
             plt.yticks([])
             plt.imshow((cvp[:100,-1:,j]>>i)&1)
     plt.show()
+    print('- ' * 40)
+    print("可以用 ImgFunc.mpb 试试看Y4大佬的脚本\n myb(fn,bits=\"01234\",channel=\"RGB\",axises='xy',full=0)")
+    print('- ' * 40)
+
+
+
+
+from PIL import Image
+from PIL import ImageSequence
+class Giffunc(ImgBits):
+    frameinfo =[]
+    def __init__(self,fn):
+            
+        self.img = Image.open(fn)
+        self.fn=fn
+        self.height = self.img.height
+        self.weight = self.img.width
+        self.nframe = self.img.n_frames
+        print('- ' *50)
+        print(f' gifsize: {self.weight} x {self.height}')
+        print(f' gifframe: {self.nframe}')
+        self.iframe = self.img.n_frames
+        self.frameinfo = []
+        for frame in  ImageSequence.Iterator(self.img):
+            # print(frame.info)
+            self.frameinfo.append(frame.info.copy())
+        print('- ' *50)
+        self.freamelist=[]
+        for i in tqdm.trange(self.img.n_frames):
+            self.img.seek(i)
+            img=np.array(self.img)
+            try : img = img[:,:,::-1]
+            except:pass 
+            self.freamelist.append(img)
+
+    def showall(self):
+        for i in range(0,len(self.freamelist),5):
+            plt.figure(figsize=(self.weight*5/100,self.height/100))
+            for j in range(5):
+                try:
+                    plt.subplot(1,5,j+1)
+                    plt.imshow(self.freamelist[i+j][:,:,::-1])
+                except:pass
+            plt.show()
+        
+
+
+import apng
+class apngfunc(imgBase):
+    def __init__(self,fn):
+        self.img = apng.APNG.open(fn)
+        self.fn=fn
+        self.height = self.img.height
+        self.weight = self.img.width
+        self.nframe = len(self.img.frames)
+        print('- ' *50)
+        print(f' gifsize: {self.weight} x {self.height}')
+        print(f' gifframe: {self.nframe}')
+        self.frameinfo = []
+        for frame in  self.img.frames:
+            print(frame[1])
+            self.frameinfo.append(frame[1])
+        print('- ' *50)

@@ -102,12 +102,11 @@ def extract(in_file, out_file, password):
     data_dec = cipher.decrypt(data_out)
 
     # Write decrypted data
-    out_f = open(out_file, "wb")
-    out_f.write(data_dec)
-    out_f.close()
-
-    print( "[+] Written extracted data to %s." % out_file)
-    print("[+] ",data_dec)
+    with open(out_file, "wb") as out_f:
+        out_f.write(data_dec)
+    print( "[+] LSB Written extracted data to %s." % out_file)
+    try: print('[+] >LSB| '+data_dec.decode())
+    except:print('[-] >LSB_BYTE| ',data_dec)
 
 
 # Statistical analysis of an image to detect LSB steganography

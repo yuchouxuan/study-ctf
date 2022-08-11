@@ -1,6 +1,7 @@
 '''
-来源字Y4大佬
+来源Y4大佬
 '''
+from utfc.StrFunc import printc,cmd_color
 from PIL import Image
 import itertools
 import utfc.StrFunc as sf
@@ -84,7 +85,7 @@ def exp(fn,bits="0123",channel="RGB",axises='x',_type='lsb',full=0,):
 
 
 
-def myb(fn,bits="0123",channel="RGB",axises='xy',full=0):
+def myb(fn,bits="01234",channel="RGB",axises='xy',full=0):
     for i in range(1,len(fn)):
         if fn[-i] == '/' or fn[-i] == '\\':
             tempfn = fn[:-i]+'/tmp'
@@ -128,5 +129,7 @@ def myb(fn,bits="0123",channel="RGB",axises='xy',full=0):
                                 sf.printc('[+] FileOUT -> '+tempfn+'.png', sf.cmd_color.green)
                             except:
                                 pass
+    print('- '*80)
+    printc("感谢G4大佬提供脚本",cmd_color.rev)
 
 

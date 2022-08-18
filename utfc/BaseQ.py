@@ -4,11 +4,10 @@ import base64
 import base58
 import math
 import libnum
+import utfc.base92 as base92
 '''---------------------------------------------
     Base全家桶--残次品，跑不通
 ---------------------------------------------'''
-
-
 class BaseQ:
     defTable = {
         '16': b'0123456789ABCDEF',
@@ -116,37 +115,41 @@ class BaseQ:
 
     @staticmethod
     def DcTW(fn):
-        base = [base64.b16decode, base64.b32decode, base58.b58decode, base64.b64decode, base64.b85decode, base91.decode]
         c = ''
         with open(fn, 'r') as f:
             c = f.read()
         BaseQ.DcStrQJT(c)
 
     @staticmethod
-    def DcStrQJT(c='',findflag=['flag','ctf'],fromb='|'):
-        base = [base64.b16decode, base64.b32decode, base58.b58decode, base64.b64decode, base64.b85decode, base91.decode]
+    def DcStrQJT(in_c='',findflag=['flag','ctf'],fromb='|'):
+        def base91dec(str_in):
+            ret =  base91.decode(str_in).decode()
+            return ret
+        base = [base64.b16decode,base92.base92_decode, base64.b16decode, base64.b32decode, base58.b58decode, base64.b85decode, base91dec,base64.b64decode]
         for i in base:
             try :
                 try:
-                    c = i(c)
+                    c = i(in_c.decode())
                 except:
-                    try:   c=i(c.decode())
+                    try:   c=i(in_c)
                     except:continue
                 path = fromb + '->' + i.__name__+'|'
                 enc = c
-                if isinstance(enc,bytes):
+                try:
                     enc=enc.decode()
+                except:pass
                 if (len(enc) > 1):
                     for x in findflag:
                         if x in enc:
                             printc(path+enc, cmd_color.light_green)
                             break;
                     else:
-                        print(path, c)
+                        if enc.isprintable():
+                            printc(path + enc, cmd_color.yellow)
+                        print(path, enc)
                     BaseQ.DcStrQJT(c, fromb=path)
             except: pass
 
 if __name__ == "__main__":
     print(BaseQ.Dc(''))
-
     pass

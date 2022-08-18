@@ -1504,6 +1504,27 @@ class Fence:
         for j in range(len(encrypted)):
             decrypted += matrix[i_s[j % i_s_len]][j]
         return decrypted
+    @staticmethod
+    def Ec(txt="",zls=None):
+        def ec(txt="",zls=zls):
+            lenzl = len(txt)//zls
+            if  len(txt)%zls != 0:
+                lenzl+=1
+            txtz =txt+ "~"*(zls*lenzl-len(txt))
+            ret = ''
+            for i in range(lenzl):
+                ret +=''.join([txtz[i+lenzl*x] for x in range(zls)])
+            return ret
+        if zls == None:
+            zl=[i for i in range(2,len(txt))]
+        else:
+            zl=[zls]
+        ret1=[]
+        ret2=[]
+        for i in zl:
+            ret1.append('FencEc:%d'%i)
+            ret2.append(ec(txt,i))
+        return [ret2,ret1]
 
     @staticmethod
     def Dc(txt="", zls=None):
@@ -1529,6 +1550,10 @@ class Fence:
             ret2.append("Fence:%d" % i)
             ret.append(Fence.WDc(txt, i))
             ret2.append("Fence_W:%d" % i)
+        x = Fence.Ec(txt,zls)
+
+        ret.extend(x[0])
+        ret2.extend(x[1])
         return [ret, ret2]
 
 

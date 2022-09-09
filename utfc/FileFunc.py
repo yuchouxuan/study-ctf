@@ -1,3 +1,9 @@
+def repPyc(fn,structpyc):
+    with open(fn, 'r+b') as program:  # 如果是w会把文件清空,r+会替换本来的内容
+        with open("structpyc", 'rb') as struct:
+            magic = struct.read(12)
+            program.seek(0)  # 文件指针移动到最前面
+            program.write(magic)
 class FileF:
     @staticmethod
     def s2f(fn='data.txt', txt='', cs='utf-8', errs='ignore'):
@@ -61,3 +67,25 @@ class FileF:
     @staticmethod
     def rev(fn1="", fn2=""):
         open(fn2, 'wb').write(open(fn1, 'rb').read()[::-1])
+
+
+
+import glob ,re 
+def findFlag(path='./', flag=['flag','ZmxhZ','666c','ctf','1100110011011000110000101100111','key','eval','runtime']):
+    path = glob.glob(path+'**',recursive=True)
+    for i in path:
+        try:
+            with open(i,'rb') as f:
+                haveflag=False
+                b = f.read()
+                for find in flag:
+                    restr = "(.{,5}"+find+".{,30})"
+                    x = re.findall(restr.encode(), b,re.IGNORECASE)
+                    for fl in x:
+                        print(fl) 
+                        haveflag = True           
+                if haveflag:
+                    print('- '*50)
+                    print(i)
+                    print()
+        except: pass 

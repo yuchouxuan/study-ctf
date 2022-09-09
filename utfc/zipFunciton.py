@@ -1,6 +1,5 @@
 import string
 import zipfile, os
-import hashlib
 from zlib import crc32
 import tqdm
 def unzip(zipname):
@@ -21,7 +20,7 @@ class zipF (zipfile.ZipFile):
         self.pwd=pws
         for  i in self.filelist:
             self.flist.append(i.filename)
-            print(i.filename,i.file_size,hex(i.CRC),i.date_time)
+            print(i.filename,i.file_size,hex(i.CRC),i.date_time,end=" | ")
             # print(,,hex(self.NameToInfo[i].CRC))
     def unzip(self,fn:str,pwd=None,ofn:str=None):
         if pwd==None: pwd=self.pwd
@@ -46,3 +45,30 @@ class zipF (zipfile.ZipFile):
             crct = crc32(bytes(trying))
             if crct==crc :
                 return  bytes(trying)
+
+# 彩虹表模式，四位的，3位用不着，5位内存吃不太消~~
+# tab默认是b64码表~~~,有些莫名其妙的bug，回头改~
+import utfc.BaseQ as baseq
+def rt_crc_4b(zip,fn=[],tab=None):
+    if tab is None:
+        tab = baseq.BaseQ.defTable['64'].decode() +"="
+    if isinstance(tab,bytes):
+        tab =tab.decode()
+    xf = zipF(zip)
+    rainbow = {}
+    for i in tqdm.tqdm(tab):
+        for j in tab:
+            for q in tab:
+                for k in tab:
+                    x = i + j + q + k
+                    rainbow[crc32(x.encode())] = x
+    bc = ''
+    for i in fn:
+        try:
+            fcrc = xf.NameToInfo[i].CRC
+            print(i, fcrc, '->', rainbow[fcrc], end='|')
+            bc += rainbow[fcrc]
+        except:
+            print(i, fcrc, '->','ERROR', end='|')
+    return bc
+

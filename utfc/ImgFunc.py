@@ -90,11 +90,15 @@ class imgBase:
                     f.close()
             except: pass
 
-            self.img = cv.imread(fn)
-            self.fn = fn
-            self.height = self.img.shape[0]
-            self.weight = self.img.shape[1]
-            self.channels = self.img.shape[2]
+            try:
+
+                self.img = cv.imread(fn)
+                self.fn = fn
+                self.height = self.img.shape[0]
+                self.weight = self.img.shape[1]
+                self.channels = self.img.shape[2]
+            except:pass
+            
             print(fn, self.weight, self.height, self.channels)
         except:
             pass
@@ -606,8 +610,10 @@ def chkimg(fn,find_list={'key','flag','Zmxh','ctf'},lsbpws='123456'):
 
 
     cvp =cv2.imread(fn,-1)
-    if cvp==None:
-        cvp = np.array(Image.open(fn))[:,:,::-1]
+    try:
+        if cvp==None:
+            cvp = np.array(Image.open(fn))[:,:,::-1]
+    except:pass
     w,h,n = cvp.shape
 
 

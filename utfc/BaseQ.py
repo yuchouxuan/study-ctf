@@ -125,16 +125,31 @@ class BaseQ:
         def base91dec(str_in):
             ret =  base91.decode(str_in).decode()
             return ret
+
+        def dec(in_c,fc):
+            for padding in range(6):
+
+                try:
+                    return fc(in_c.decode())
+                except:
+                    try:
+                       return fc(in_c)
+                    except:
+                        pass
+                if isinstance(in_c,bytes):
+                    in_c = (in_c.decode() + '=').encode()
+                else:
+                    in_c +='='
+            return False
         base = [base64.b16decode,base92.base92_decode, base64.b16decode, base64.b32decode, base58.b58decode, base64.b85decode, base91dec,base64.b64decode]
+        base = [base64.b16decode,base92.base92_decode, base64.b32decode, base58.b58decode, base64.b85decode, base91dec,base64.b64decode]
         for i in base:
             try :
-                try:
-                    c = i(in_c.decode())
-                except:
-                    try:   c=i(in_c)
-                    except:continue
+
+                enc = dec(in_c,i)
+                c = enc
+                if enc==False: continue
                 path = fromb + '->' + i.__name__+'|'
-                enc = c
                 try:
                     enc=enc.decode()
                 except:pass

@@ -2,6 +2,36 @@ import wave
 import matplotlib.pyplot as plt
 import numpy as np
 import struct
+def groupwork(lin,func=[np.abs,np.average],gsize=100,ds=np.float):
+    if isinstance(lin,list) :
+        lin = np.array(lin)*1.0
+    lin = lin.astype(ds)
+    ret=[]
+    for idx in range(0,len(lin),gsize):
+        val = lin[idx:idx+gsize]
+        v2 = val.copy()
+        for f in func:
+            val = f(val)
+        ret.append(val)
+    return np.array(ret)
+
+
+
+def seczip(lin):
+    ret = []
+    last = lin[0]
+    cont = 0
+    for i in lin:
+        if i != last:
+            ret.append((cont,last))
+            cont =0
+            last =i
+        cont+=1
+    ret.append((cont,last))
+    return ret
+
+
+
 class WavF:
     strData = ''
     params = ''

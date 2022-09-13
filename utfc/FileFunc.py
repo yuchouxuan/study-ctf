@@ -1,3 +1,23 @@
+#文件逆序
+def filerev(ifn,revFunc=0,ofn=None): # 0，整字节;1半字节；2按位
+    bList=[]
+    with open(ifn,'rb') as ifile:
+        bList = list(ifile.read()[::-1])
+    if ofn is None :
+        ofn = ifn 
+    with open(ofn,'wb') as ofile:
+        if revFunc == 1 :
+            for i in range(len(bList)):
+                bList[i] = ((bList[i]>>4)&0xf)|((bList[i]<<4)&0xf0)
+        elif revFunc == 2 :
+            for i in range(len(bList)):
+                bit = bin(bList[i])[2:] 
+                bList[i] = int(bit[::-1] + '0'*(8-len(bit)),2)&0xff
+        ofile.write(bytes(bList))
+    print(bytes(bList))
+    print(' - '*50)
+    print(ifn,'--->',ofn)
+
 def repPyc(fn,structpyc):
     with open(fn, 'r+b') as program:  # 如果是w会把文件清空,r+会替换本来的内容
         with open("structpyc", 'rb') as struct:

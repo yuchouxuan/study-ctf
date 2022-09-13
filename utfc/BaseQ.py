@@ -6,7 +6,7 @@ import math
 import libnum
 import utfc.base92 as base92
 '''---------------------------------------------
-    Base全家桶--残次品，跑不通
+    Base全家桶--残次品，92以上跑着有问题
 ---------------------------------------------'''
 class BaseQ:
     defTable = {

@@ -10,7 +10,7 @@ from itertools import permutations
 from zlib import crc32
 from itertools import cycle
 import base91
-import base92
+import utfc.base92 as base92
 import gmpy2
 from Crypto.Cipher import PKCS1_OAEP as PKCS1_OAEP
 from Crypto.Cipher import PKCS1_v1_5 as Cipher_pkcs1_v1_5

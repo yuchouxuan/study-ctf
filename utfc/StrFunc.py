@@ -219,6 +219,10 @@ class CharF:
     @staticmethod
     # 简单字符串比较，探查是否被简单加密过
     def compStr(s1='', s2=''):
+        if isinstance(s1,bytes) :
+            s1=s1.decode()
+        if isinstance(s2, bytes):
+            s2=s2.decode()
         ml = min(len(s1), len(s2))
         def output(n='', ev='ord(s1[i]) - ord(s2[i])', s1=s1, s2=s2, x=ml):
             print('%15s:' % n, end=' ')

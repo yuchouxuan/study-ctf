@@ -687,6 +687,9 @@ from PIL import Image
 from PIL import ImageSequence
 class Giffunc(ImgBits):
     frameinfo =[]
+    
+    def gif2bl(self):
+        return ImgBits.gif2bl(self.fn)
     def __init__(self,fn):
             
         self.img = Image.open(fn)

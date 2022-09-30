@@ -108,7 +108,7 @@ class MYB:  # 莽一波
                 c = "".join(c)
             if isinstance(c[0], int):
                 c = ''.join([chr(i) for i in c])
-        flaglist = set(['flag','zmxhz','666c61677b','0011011000110110001000000011011001100011001000000011011000110001001000000011011000110111'])
+        flaglist = set(['flag','zmxhz','666c61677b','0011011000110110001000000011011001100011001000000011011000110001001000000011011000110111','key','ctf'])
         if isinstance(flag2find,bytes):
             flag2find = flag2find.decode()
         if isinstance(flag2find,str):

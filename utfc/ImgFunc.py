@@ -731,8 +731,8 @@ class apngfunc(imgBase):
     def __init__(self,fn):
         self.img = apng.APNG.open(fn)
         self.fn=fn
-        self.height = self.img.height
-        self.weight = self.img.width
+        # self.height = self.img.height
+        # self.weight = self.img.width
         self.nframe = len(self.img.frames)
         print('- ' *50)
         print(f' gifsize: {self.weight} x {self.height}')

@@ -14,6 +14,16 @@ WdF = [  # 字频率矩阵
 
 
 class CharF:
+    @staticmethod
+    #lsb之后的[0 1 0 1 0 1]数组直接拼成字符串
+    def nparray2bytes(arrIn,bitOrder= [0,1,2,3,4,5,6,7]):
+        bl = len(bitOrder)
+        flatArray=arrIn.ravel()
+        flagArray = flatArray[:len(flatArray)//bl*bl].astype(np.uint8)
+        tag = np.zeros(len(flatArray)//bl,np.uint8) #目标数组
+        for i in bitOrder :
+            tag |= flatArray[bl-i-1::bl] << i
+        return(tag.tobytes())
     @staticmethod # 字符串=>\x??\??
     def str2Chex(strin:str , mask='\\x'):
         return ''.join([mask+'{:02x}'.format(ord(c)) for c in strin])

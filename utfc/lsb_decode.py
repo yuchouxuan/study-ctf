@@ -130,6 +130,6 @@ def myb(fn,bits="01234",channel="RGB",axises='xy',full=0):
                             except:
                                 pass
     print('- '*80)
-    printc("感谢G4大佬提供脚本",cmd_color.rev)
+    printc("感谢Ctfshow的G4大佬提供脚本",cmd_color.rev)
 
 

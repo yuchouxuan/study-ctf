@@ -50,7 +50,7 @@ class col :
 
 def main(stdscr:window):   
     w,h = stdscr.getmaxyx()
-    strarr = np.zeros((w-1,h-1),np.uint8)[:,:-4] 
+    strarr = np.zeros((w,h),np.uint8)[:,:-4] 
     curses.noecho()
     curses.cbreak()
 
@@ -60,6 +60,7 @@ def main(stdscr:window):
         curses.init_color(6,400,800,400)
         curses.init_color(4,300,500,300)
         curses.init_color(2,100,200,100)
+        curses.init_color(curses.COLOR_BLACK,0,0,0)
 
 
     curses.init_pair(0, 7, curses.COLOR_BLACK)
@@ -88,7 +89,7 @@ def main(stdscr:window):
                     i.addhead()
                 i.step(0.8)
             stdscr.refresh()
-            time.sleep(0.1)
+            time.sleep(0.05)
 
 
         for cont in range(roundtime):  
@@ -100,7 +101,7 @@ def main(stdscr:window):
                 i.step(0.8)
             
             stdscr.refresh()
-            time.sleep(0.1)
+            time.sleep(0.05)
     stdscr.getkey()
     # print(cols[-1].mask)
 

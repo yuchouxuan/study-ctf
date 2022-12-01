@@ -4,6 +4,7 @@ imgo = cv2.imread('all_girl.png', -1)[50:-1, 50:-1]
 h, w, _ = imgo.shape
 hp = h // 10
 wp = w // 10
+
 def remMaskOuter(imgin: np.ndarray):
     y, x = np.where(imgin > 0)
     return imgin[min(y):max(y), min(x):max(x)] // 128 * 255

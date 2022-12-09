@@ -135,3 +135,15 @@ class SQLBI:
         return ret
 
 
+'''二分注入'''
+def solve_2dev(arr:list,last_reponse=True,bios=0):
+    minx,maxx=1,2*arr[0]    
+    for pos in range(len(arr)-1):
+        if arr[pos+1] > arr[pos] :
+            minx = arr[pos]  
+        else: 
+            maxx = arr[pos]
+    if   last_reponse:
+       return minx
+    else :
+       return arr[-1]

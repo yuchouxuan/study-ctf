@@ -64,19 +64,24 @@ class BaseQ:
         i=b''
         for i in BaseQ.defTable:
             c = BaseQ.decode(txt, i)
-            reta.append(bytes(c[0][0], 'utf-8'))
-            retb.append(c[1][0])
+            for i in c[0]:
+                reta.append(bytes(i, 'utf-8'))
+                retb.append(c[1][0])
         return [reta, retb]
 
     @staticmethod
     def decode(txt='', tab='', base=None):
-        if '62' in tab:
+        if '62' in tab: #有个网站不知道为啥给base62分段了，好多题都是用这个网站出的，也就只能这样了
+                        #后来有无良大佬，直接搞了个不管多少都分段的。。。凑合着用吧。
             retb = b''
-            reta = ''
-            for ct in range(0,len(txt),11):
-                a,retb = BaseQ._decode(txt[ct:ct+11], tab, base=None)
-                reta += a[0]
-            return [[reta],retb]
+            reta = []
+            for fd in range(6,24):
+                rtmp=f'{fd}->|'
+                for ct in range(0,len(txt),fd):
+                    a,retb = BaseQ._decode(txt[ct:ct+fd], tab, base=None)
+                    rtmp += a[0]
+                reta.append(rtmp)
+            return [reta,retb]
         else:
             return BaseQ._decode(txt, tab, base)
     @staticmethod

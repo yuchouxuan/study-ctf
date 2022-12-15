@@ -58,7 +58,6 @@ class BaseQ:
 
     @staticmethod
     def Dc(txt=''):
-
         reta = []
         retb = []
         i=b''

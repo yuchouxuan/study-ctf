@@ -1554,7 +1554,9 @@ class Fence:
 
         ret.extend(x[0])
         ret2.extend(x[1])
-        return [ret, ret2]
+
+
+        return f_JoinAnsList([ret, ret2],Fence.Ec(txt,zls))
 
 
 class Filler:  # 过滤器

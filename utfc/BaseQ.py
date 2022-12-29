@@ -74,7 +74,7 @@ class BaseQ:
                         #后来有无良大佬，直接搞了个不管多少都分段的。。。凑合着用吧。
             retb = b''
             reta = []
-            for fd in range(6,24):
+            for fd in (11,len(txt)):
                 rtmp=f'{fd}->|'
                 for ct in range(0,len(txt),fd):
                     a,retb = BaseQ._decode(txt[ct:ct+fd], tab, base=None)

@@ -1,3 +1,9 @@
+import scapy
+from scapy.all import *
+from scapy.utils import PcapReader
+import  scapy.layers as layers 
+from scapy.layers.http import HTTPRequest, HTTPResponse, HTTP
+
 class st_USB:
     normalKeys = {"04": "a", "05": "b", "06": "c", "07": "d", "08": "e", "09": "f", "0a": "g", "0b": "h", "0c": "i",
                   "0d": "j", "0e": "k", "0f": "l", "10": "m", "11": "n", "12": "o", "13": "p", "14": "q", "15": "r",
@@ -147,3 +153,8 @@ def solve_2dev(arr:list,last_reponse=True,bios=0):
        return minx
     else :
        return arr[-1]
+
+
+'''
+packets=rdpcap("./test.pcap")
+'''

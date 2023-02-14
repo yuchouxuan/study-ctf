@@ -156,5 +156,6 @@ def solve_2dev(arr:list,last_reponse=True,bios=0):
 
 
 '''
-packets=rdpcap("./test.pcap")
+packets=rdpcap("z:/ctf/misc.pcapng")
+http = packets.getlayer(HTTP)
 '''

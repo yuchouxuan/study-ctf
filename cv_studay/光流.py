@@ -2,13 +2,15 @@ import cv2
 import numpy
 import matplotlib.pyplot as plot
 import numpy as np
-cap = cv2.VideoCapture(0) 
-# 创建随机颜色
-color = np.random.randint(0, 255, (100, 3))
+#读取文件，宽高
+cap = cv2.VideoCapture('z:/ctf/a.avi')
+frame_width = int(cap.get(3))
+frame_height = int(cap.get(4))
+#写入文件准备
+out = cv2.VideoWriter('output.avi', cv2.VideoWriter_fourcc('M','J','P','G'), 60, (frame_width,frame_height))
 
-# 读取第一帧
+#读取第一帧
 ret, frame = cap.read()
-# 转换为灰度图像
 gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 mask = np.zeros_like(frame)
 while True:
@@ -26,15 +28,24 @@ while True:
     fx, fy = flow[y, x].T
     lines = np.vstack([x, y, x + fx, y + fy]).T.reshape(-1, 2, 2)
     lines = np.int32(lines + 0.5)
-    vis = cv2.cvtColor(gray, cv2.COLOR_GRAY2BGR)
+    #vis = cv2.cvtColor(gray, cv2.COLOR_GRAY2BGR)
+    vis = np.zeros_like(frame)
+    v = 0
     for (x1, y1), (x2, y2) in lines:
-        cv2.line(vis, (x1, y1), (x2, y2), (0, 255, 0), 1)
+        if((x1-x2)**2 + (y1-y2)**2) >10:
+            cv2.line(vis, (x1, y1), (x2, y2), (0, 255, 0), 1)
+            v+=1
     # 将光流叠加到原始图像上
-    img = cv2.add(frame, vis)
+    # img = cv2.add(frame, vis)
 
     # 显示图像
-    cv2.imshow('frame', vis)
+    cv2.imshow('frame', vis&frame)
+    cv2.imshow('frame2', frame)
+    print('V',v, np.average(frame),np.sum(vis))
     gray=gray_next
+
+    #存储图像
+    out.write(vis)
     if cv2.waitKey(25) & 0xFF == ord('q'):
         break
 

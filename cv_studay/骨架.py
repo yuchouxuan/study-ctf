@@ -2,6 +2,7 @@ import time
 import cv2
 import mediapipe as mp
 import matplotlib.pyplot as plt
+import numpy as np
 from mpl_toolkits.mplot3d import Axes3D
 
 mp_drawing = mp.solutions.drawing_utils
@@ -42,15 +43,13 @@ def processing(image):
 
 
     image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
+    image*=0
     # 使用draw_landmarks()绘制关键点
     mp_drawing.draw_landmarks(
-        image,
+       image,
         results.pose_landmarks,
         mp_pose.POSE_CONNECTIONS,
         landmark_drawing_spec=mp_drawing_styles.get_default_pose_landmarks_style())
-
-    print(results.pose_landmarks)
-
 
     # 返回处理后的图像
     return image
@@ -64,6 +63,8 @@ with mp_pose.Pose(
     while cap.isOpened():
         # 读取视频帧和状态
         success, image = cap.read()
+        # success, image = cap.read()
+        success, image = cap.read()
         # 如果初始化失败，则推出进程
         if not success:
             print("")
@@ -75,9 +76,11 @@ with mp_pose.Pose(
         # 重置FPS开始点计时器
         fps_start_time = fps_end_time
         # 创建线程处理图像
+        cv2.imshow('Giorg', image//2)
         image = processing(image)
         # 显示图像
         cv2.imshow('Gi', image)
+
         # 按下q键退出
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break

@@ -11,7 +11,14 @@ WdF = [  # 字频率矩阵
     0.0202124, 0.0564513, 0.0596302, 0.0137645, 0.0008606, 0.0497563,
     0.0515760, 0.0729357, 0.0225134, 0.0082903, 0.0171272, 0.0013692,
     0.0145984, 0.0007836]
-
+def bytes_to_uint32_list(byte_stream,format='I'):
+    uint32_list = []
+    num_uint32 = len(byte_stream) // 4
+    for i in range(num_uint32):
+        start = i * 4
+        uint32 = struct.unpack_from(format , byte_stream, start)[0]
+        uint32_list.append(uint32)
+    return uint32_list
 
 class CharF:
     @staticmethod

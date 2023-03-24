@@ -6,6 +6,3 @@ a= uif.pngFunc('')
 import libnum as libn
 
 
-b='s'
-b+='ddddd'
-b

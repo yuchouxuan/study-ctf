@@ -29,6 +29,7 @@ def mediapipe_varibles_init():
 
 def draw_3d_pose(f):
     results = pose.process(cv2.cvtColor(f, cv2.COLOR_BGR2RGB))
+    ret = np.zeros_like(f)
     if results.pose_world_landmarks:
         for i in range(11, 33):
             if i != 18 and i!=20 and i!= 22 and i != 17 and i!=19 and i!=21:
@@ -48,27 +49,44 @@ def draw_3d_pose(f):
             for i in range(1):
                 c[i+2*n].append(vector(points[ids[n][i]].pos.x, points[ids[n][i]].pos.y, points[ids[n][i]].pos.z),
                                             vector(points[ids[n][i +1]].pos.x, points[ids[n][i + 1]].pos.y, points[ids[n][i+1]].pos.z), retaine = 2)
-    mp_drawing.draw_landmarks(image=f, landmark_list=results.pose_landmarks, connections=mp_pose.POSE_CONNECTIONS)
+    # mp_drawing.draw_landmarks(image=ret, landmark_list=results.pose_landmarks, connections=mp_pose.POSE_CONNECTIONS)
+
+    mp_drawing.draw_landmarks(image=ret, landmark_list=results.pose_landmarks, connections=mp_pose.POSE_CONNECTIONS)
+    return ret
     
 
-cap = cv2.VideoCapture('z:/ctf/b.mp4')
+cap = cv2.VideoCapture('z:/ctf/a.mp4')
 cap.set(cv2.CAP_PROP_BUFFERSIZE, 2)
 points, boxs, ids, c = vpython_variables_init()
 pose, mp_pose, mp_drawing = mediapipe_varibles_init()
+size = (int(cap.get(cv2.CAP_PROP_FRAME_WIDTH)),int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT)))
+videoWriter = cv2.VideoWriter( "z:/ctf/output.avi",
+     cv2.VideoWriter_fourcc(*'MJPG'),  # 编码器
+     30,
+     size
+)
 
+import numpy as np
+a=0
+for i in range(500) :
+    _, f = cap.read()
 while True:
     #获取每一帧的图像
     _, f = cap.read()
     #vpython里的一个函数，用来调整3D中的FPS
     rate(150)
     #调用在3D里画出骨架的函数
-    draw_3d_pose(f)
+    f = draw_3d_pose(f)
     #在每一帧里画骨架
     #显示每一帧
     cv2.imshow('real_time', f)
     #检测是否要关闭窗口
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
+    a+=1
+    if a%3==2:
+        videoWriter.write(f)
 
+videoWriter.release()
 cap.release()
 cv2.destroyAllWindows()

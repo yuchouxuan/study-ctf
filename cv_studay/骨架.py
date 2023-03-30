@@ -12,7 +12,7 @@ mp_pose = mp.solutions.pose
 
 window = cv2.namedWindow("Gi", cv2.WINDOW_FULLSCREEN)
 
-cap = cv2.VideoCapture('z:/ctf/b.mp4')
+cap = cv2.VideoCapture('z:/ctf/a.mp4')
 cap.set(cv2.CAP_PROP_BUFFERSIZE, 2)
 
 

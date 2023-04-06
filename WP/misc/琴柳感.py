@@ -6,5 +6,5 @@ for i in permutations("0123", 4):
     nums=c
     for j in range(len(word)):
         nums = nums.replace(word[j], i[j]) 
-    try : print(libnum.n2s(int(nums,4) ))
+    try : print(libnum.n2s(int(nums,4).decode() ))
     except: pass 

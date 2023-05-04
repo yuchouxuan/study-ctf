@@ -12,7 +12,7 @@ mp_pose = mp.solutions.pose
 
 window = cv2.namedWindow("Gi", cv2.WINDOW_FULLSCREEN)
 
-cap = cv2.VideoCapture('z:/ctf/a.mp4')
+cap = cv2.VideoCapture('z:/ctf/jntm.mp4')
 cap.set(cv2.CAP_PROP_BUFFERSIZE, 2)
 
 
@@ -36,17 +36,21 @@ def processing(image):
     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     # 使用MediaPipe Pose检测关键点
     results = pose.process(image)
+    
     # 解锁图像读写
     image.flags.writeable = True
     # 将图像转换回BGR
+    try:
 
-
+        print(results.pose_landmarks)
+        print(' - '*40)
+    except:pass
 
     image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
     image*=0
     # 使用draw_landmarks()绘制关键点
     mp_drawing.draw_landmarks(
-       image,
+        image,
         results.pose_landmarks,
         mp_pose.POSE_CONNECTIONS,
         landmark_drawing_spec=mp_drawing_styles.get_default_pose_landmarks_style())
@@ -60,7 +64,9 @@ with mp_pose.Pose(
         min_detection_confidence=0.5,
         min_tracking_confidence=0.5) as pose:
     # 当视频打开时
-    while cap.isOpened():
+    ix=0
+    while cap.isOpened() :
+        ix+=1
         # 读取视频帧和状态
         success, image = cap.read()
         # success, image = cap.read()

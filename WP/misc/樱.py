@@ -1,5 +1,5 @@
 #因为水平有限，所以用了cv2，
-#如果不想用轮子装X也可以自己实现光流
+#如果不想用轮子装X也可以自己实现光流算法
 import cv2,numpy as np,matplotlib.pyplot as plt
 cap = cv2.VideoCapture('out_flag.mp4')
 ret, frame = cap.read()

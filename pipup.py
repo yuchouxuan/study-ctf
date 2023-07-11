@@ -1,6 +1,7 @@
 
 import os
-def up(mn=0,ilist=['NoName_______']):
+import argparse
+def up(mn=0,ilist=['_______NoName_______']):
     mirr=[
         '',
         '-i https://mirror.baidu.com/pypi/simple ',
@@ -27,4 +28,12 @@ def up(mn=0,ilist=['NoName_______']):
         print('\n\n')
 
 
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-i','--i',default=0,type=int)
+    parser.add_argument('-ing','--ing',default='_______NoName_______',type=str)
+    args = parser.parse_args()
+    print(args.i)
+    print(args.ing.split())
+    up(args.i,args.ing.split())
     

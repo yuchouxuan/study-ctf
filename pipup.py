@@ -26,6 +26,7 @@ def up(mn=0,ilist=['_______NoName_______']):
         cmd = f'pip3 install {wname} -U  '+m
         os.system(cmd)
         print('\n\n')
+    os.system('pip cache purge')
 
 
 if __name__ == '__main__':

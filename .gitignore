@@ -12,3 +12,4 @@ test.js
 .DS_Store
 *test.*
 null
+*.jar

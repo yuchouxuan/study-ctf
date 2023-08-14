@@ -1,0 +1,188 @@
+from FrameBase import  *
+import math
+class Ghp(QtWidgets.QLabel):
+    iang = 0
+    zang = 0
+    qpen0 = QtGui.QPen(col.cw,2,qt.SolidLine,qt.FlatCap)
+    qpen1 = QtGui.QPen(col.cw, 1,qt.DashDotLine, qt.FlatCap)
+    qpin  = QtGui.QPen(col.cGreen3, 2,qt.SolidLine, qt.FlatCap)
+    qpout = QtGui.QPen(col.cGreen2, 2, qt.SolidLine, qt.FlatCap)
+
+    def paintEvent(self, a0: QtGui.QPaintEvent) -> None:
+        w = self.width()-20
+        h = self.height()
+        r = min(w,h) //2
+        o = (w//2,h//2)
+        qp = myPainter()
+        qp.begin(self)
+        qp.setPen(self.qpen0)
+        qp.drawLine(0,o[1],w,o[1])
+        qp.setPen(self.qpen1)
+        qp.drawLine(o[0],0,o[0],h)
+        dx = r * math.sin(self.iang)
+        dy = r * math.cos(self.iang)
+        qp.setPen(self.qpin)
+        qp.drawLine(o[0]-dx,o[1]-dy,*o , arror=1)
+
+        qp.setPen(self.qpout)
+        qp.drawLine(o[0],o[1],o[0]+dx,o[1]-dy, arror=1)
+
+        if self.zang >= math.pi/2-0.001 :
+            qp.drawText(20,20,"全反射")
+            qp.drawLine(o[0], o[1], o[0] + dx, o[1] - dy, arror=1)
+        else:
+            dx = r * math.sin(self.zang)
+            dy = r * math.cos(self.zang)
+            qp.drawLine(o[0], o[1], o[0] + dx, o[1] + dy, arror=1)
+        qp.end()
+        super(Ghp, self).paintEvent(a0)
+    pass
+
+class Ui_Form(FrameBase):
+    def setupUi(self, Form):
+        self.name = "光学-折反射"
+        Form.setObjectName("Form")
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(Form.sizePolicy().hasHeightForWidth())
+        Form.setSizePolicy(sizePolicy)
+        self.horizontalLayout = QtWidgets.QHBoxLayout(Form)
+        self.horizontalLayout.setObjectName("horizontalLayout")
+        self.wigglyWidget = Ghp(Form)
+        self.wigglyWidget.setObjectName("wigglyWidget")
+        self.horizontalLayout.addWidget(self.wigglyWidget)
+        self.wigglyWidget.setMinimumSize(400,0)
+        self.verticalLayout_2 = QtWidgets.QVBoxLayout()
+        self.verticalLayout_2.setObjectName("verticalLayout_2")
+        self.angle = QtWidgets.QDial(Form)
+        self.angle.setMinimum(0)
+        self.angle.setMaximum(899)
+        self.angle.setValue(300)
+        self.angle.setInvertedAppearance(False)
+        self.angle.setObjectName("angle")
+        self.verticalLayout_2.addWidget(self.angle)
+        self.led1 = QtWidgets.QLCDNumber(Form)
+        self.led1.setFrameShape(QtWidgets.QFrame.Box)
+        self.led1.setFrameShadow(QtWidgets.QFrame.Sunken)
+        self.led1.setDigitCount(7)
+        self.led1.setSegmentStyle(QtWidgets.QLCDNumber.Flat)
+        self.led1.setProperty("value", 1.0)
+        self.led1.setObjectName("led1")
+        self.verticalLayout_2.addWidget(self.led1)
+        self.l1 = QtWidgets.QLabel(Form)
+        self.l1.setTextFormat(QtCore.Qt.PlainText)
+        self.l1.setAlignment(QtCore.Qt.AlignCenter)
+        self.l1.setObjectName("l1")
+        self.verticalLayout_2.addWidget(self.l1)
+        self.alpha = QtWidgets.QDial(Form)
+        self.alpha.setMinimum(100)
+        self.alpha.setMaximum(200)
+        self.alpha.setPageStep(1)
+        self.alpha.setTracking(True)
+        self.alpha.setOrientation(QtCore.Qt.Horizontal)
+        self.alpha.setObjectName("alpha")
+        self.verticalLayout_2.addWidget(self.alpha)
+        self.led2 = QtWidgets.QLCDNumber(Form)
+        self.led2.setFrameShape(QtWidgets.QFrame.Box)
+        self.led2.setFrameShadow(QtWidgets.QFrame.Sunken)
+        self.led2.setDigitCount(7)
+        self.led2.setSegmentStyle(QtWidgets.QLCDNumber.Flat)
+        self.led2.setProperty("value", 1.0)
+        self.led2.setObjectName("led2")
+        self.verticalLayout_2.addWidget(self.led2)
+        self.l2 = QtWidgets.QLabel(Form)
+        self.l2.setTextFormat(QtCore.Qt.PlainText)
+        self.l2.setAlignment(QtCore.Qt.AlignCenter)
+        self.l2.setObjectName("l2")
+        self.verticalLayout_2.addWidget(self.l2)
+        self.alpha2 = QtWidgets.QDial(Form)
+        self.alpha2.setMinimum(100)
+        self.alpha2.setMaximum(200)
+        self.alpha2.setValue(150)
+        self.alpha2.setObjectName("alpha2")
+        self.verticalLayout_2.addWidget(self.alpha2)
+        self.led3 = QtWidgets.QLCDNumber(Form)
+        self.led3.setFrameShape(QtWidgets.QFrame.Box)
+        self.led3.setFrameShadow(QtWidgets.QFrame.Sunken)
+        self.led3.setDigitCount(7)
+        self.led3.setSegmentStyle(QtWidgets.QLCDNumber.Flat)
+        self.led3.setProperty("value", 1.5)
+        self.led3.setObjectName("led3")
+        self.verticalLayout_2.addWidget(self.led3)
+        self.l2_2 = QtWidgets.QLabel(Form)
+        self.l2_2.setTextFormat(QtCore.Qt.PlainText)
+        self.l2_2.setAlignment(QtCore.Qt.AlignCenter)
+        self.l2_2.setObjectName("l2_2")
+        self.verticalLayout_2.addWidget(self.l2_2)
+        self.label = QtWidgets.QLabel(Form)
+        self.label.setAlignment(QtCore.Qt.AlignCenter)
+        self.label.setObjectName("label")
+        self.verticalLayout_2.addWidget(self.label)
+        self.led4 = QtWidgets.QLCDNumber(Form)
+        self.led4.setFrameShape(QtWidgets.QFrame.Box)
+        self.led4.setFrameShadow(QtWidgets.QFrame.Sunken)
+        self.led4.setDigitCount(7)
+        self.led4.setSegmentStyle(QtWidgets.QLCDNumber.Flat)
+        self.led4.setProperty("value", 1.0)
+        self.led4.setObjectName("led4")
+        self.verticalLayout_2.addWidget(self.led4)
+        self.l2_3 = QtWidgets.QLabel(Form)
+        self.l2_3.setTextFormat(QtCore.Qt.PlainText)
+        self.l2_3.setAlignment(QtCore.Qt.AlignCenter)
+        self.l2_3.setObjectName("l2_3")
+        self.verticalLayout_2.addWidget(self.l2_3)
+        self.led5 = QtWidgets.QLCDNumber(Form)
+        self.led5.setFrameShape(QtWidgets.QFrame.Box)
+        self.led5.setFrameShadow(QtWidgets.QFrame.Sunken)
+        self.led5.setDigitCount(7)
+        self.led5.setSegmentStyle(QtWidgets.QLCDNumber.Flat)
+        self.led5.setProperty("value", 1.0)
+        self.led5.setObjectName("led5")
+        self.verticalLayout_2.addWidget(self.led5)
+        self.l2_4 = QtWidgets.QLabel(Form)
+        self.l2_4.setTextFormat(QtCore.Qt.PlainText)
+        self.l2_4.setAlignment(QtCore.Qt.AlignCenter)
+        self.l2_4.setObjectName("l2_4")
+        self.verticalLayout_2.addWidget(self.l2_4)
+        self.horizontalLayout.addLayout(self.verticalLayout_2)
+        self.horizontalLayout.setStretch(0, 50)
+        self.horizontalLayout.setStretch(1, 1)
+
+        self.retranslateUi(Form)
+        self.angle.valueChanged['int'].connect(Form.vc) # type: ignore
+        self.alpha.valueChanged['int'].connect(Form.vc) # type: ignore
+        self.alpha2.valueChanged['int'].connect(Form.vc) # type: ignore
+        QtCore.QMetaObject.connectSlotsByName(Form)
+        self.vc()
+    def setLeds(self):
+        self.led1.setProperty("value", self.angle.value()/10)
+        self.wigglyWidget.iang= math.radians(self.angle.value()/10)
+
+        alpha1 = self.alpha.value()/100
+        self.led2.setProperty("value", alpha1 )
+        alpha2 =  self.alpha2.value()/100
+        self.led3.setProperty("value", alpha2)
+        self.led4.setProperty("value",  self.angle.value()/10)
+        try :
+            zAng = math.degrees( math.asin( math.sin(math.radians(self.angle.value())/10) * alpha1/alpha2))
+        except:
+            zAng = 90
+        self.wigglyWidget.zang = math.radians(zAng)
+        self.led5.setProperty("value", zAng)
+
+
+    def vc(self):
+        self.setLeds()
+        self.update()
+
+    def retranslateUi(self, Form):
+        _translate = QtCore.QCoreApplication.translate
+        Form.setWindowTitle(_translate("Form", "Form"))
+        self.l1.setText(_translate("Form", "入射角"))
+        self.l2.setText(_translate("Form", "上层折射率"))
+        self.l2_2.setText(_translate("Form", "下层折射率"))
+        self.label.setText(_translate("Form", "- - - "))
+        self.l2_3.setText(_translate("Form", "反射角"))
+        self.l2_4.setText(_translate("Form", "折射角"))
+

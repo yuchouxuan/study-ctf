@@ -333,8 +333,8 @@ class CharF:
                 d[i] = 1
         print('Len : ', len(txt))
         print('Chr : ', len(d))
-        print('ChrF: ', list(OrderByValue.d2str(d)))
-        print('ChrO: ', (sorted(d.keys())))
+        print('ChrF: ', "|" + ''.join(list(OrderByValue.d2str(d))))+"|" 
+        print('ChrO: ', "|" +''.join((sorted(d.keys()))))+"|" 
         return OrderByValue.d2l(d)
     @staticmethod
     # 替换，将txt中的 s 替换为 t

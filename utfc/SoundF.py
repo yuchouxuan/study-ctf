@@ -2,10 +2,10 @@ import wave
 import matplotlib.pyplot as plt
 import numpy as np
 import struct
-def groupwork(lin,func=[np.abs,np.average],gsize=100,ds=np.float):
+def groupwork(lin,func=[np.abs,np.average],gsize=100):
     if isinstance(lin,list) :
         lin = np.array(lin)*1.0
-    lin = lin.astype(ds)
+
     ret=[]
     for idx in range(0,len(lin),gsize):
         val = lin[idx:idx+gsize]

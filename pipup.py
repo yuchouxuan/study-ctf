@@ -37,4 +37,4 @@ if __name__ == '__main__':
     print(args.i)
     print(args.ing.split())
     up(args.i,args.ing.split())
-    
+

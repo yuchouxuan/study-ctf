@@ -10,8 +10,7 @@ test.js
 *.vs/
 */.ipynb_checkpoints
 .DS_Store
-*test.*
+test.*
 null
 *.jar
-*.ipynb
 %code/chat_history/history.sqlite

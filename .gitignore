@@ -14,3 +14,5 @@ test.*
 null
 *.jar
 %code/chat_history/history.sqlite
+*.vscode/
+*%code/

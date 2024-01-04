@@ -16,3 +16,4 @@ null
 %code/chat_history/history.sqlite
 *.vscode/
 *%code/
+HideInfo/

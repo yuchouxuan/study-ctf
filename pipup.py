@@ -32,7 +32,7 @@ def up(mn=0,ilist=['_______NoName_______']):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('-i','--i',default=1,type=int)
-    parser.add_argument('-n','--ing',default='_______NoName_______',type=str)
+    parser.add_argument('-n','--ing',default='torch',type=str)
     args = parser.parse_args()
     print(args.i)
     print(args.ing.split())

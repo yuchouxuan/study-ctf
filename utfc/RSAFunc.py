@@ -107,12 +107,12 @@ class rsaQues:
         n = p * q
         phi = (p - 1) * (q - 1)
         t = gmpy2.gcd(e, phi)
-        d = gmpy2.invert(e // t, phi)
+        d = gmpy2.invert(e // t, phi//t)
         m = pow(c, d, n)
-        m = gmpy2.iroot(m, t)
+        m = gmpy2.iroot(int(m), int(t))
         print('[HEX]' + hex(m[0])[2:])
         if m[1]:
-            print(libnum.n2s(m[0]))
+            print(libnum.n2s(int(m[0])))
 
     @staticmethod
     def npk(p, k, e, c):

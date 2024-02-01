@@ -24,6 +24,11 @@ from utfc.ngram_score import ngram_score
 from utfc.StrFunc import *
 import tqdm
 from utfc.BaseQ import BaseQ
+import numpy as np
+import matplotlib.pyplot as plt
+
+ 
+
 ''' 
     - - - - - - - - - - - - - - - - - - - - - -
     W.X.H  2020.01.03
@@ -74,9 +79,22 @@ from utfc.BaseQ import BaseQ
     MYB      是时候莽一波了
     过滤器    Filler                   print filler
     字频矩阵  F
+    tupper   塔珀自指公式
     - - - - - - - - - - - - - - - - - - - - - -
 '''
 
+def tupper(k): 
+    aa = np.zeros((17,106))
+    def f(x, y):
+        y += k
+        a1 = 2**-(-17*x - y%17)
+        a2 = (y // 17) // a1
+        return 1 if a2 % 2 > 0.5 else 0
+    for y in range(17):
+        for x in range(106):
+            aa[y, x] = f(x, y) 
+    plt.imshow(aa[::-1,::-1])
+    return aa[:,::-1]
 
 
 def f_JoinAnsList(l1=[], l2=[]):

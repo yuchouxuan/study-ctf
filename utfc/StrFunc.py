@@ -5,6 +5,8 @@ import itertools
 import rstr
 import re
 
+
+
 WdF = [  # 字频率矩阵
     0.0651738, 0.0124248, 0.0217339, 0.0349835, 0.1041442, 0.0197881,
     0.0158610, 0.0492888, 0.0558094, 0.0009033, 0.0050529, 0.0331490,
@@ -140,8 +142,11 @@ class CharF:
         return [chr(i) for i in range(st, end + 1)]
 
     @staticmethod
-    # 判断b中的字符是否都包含在a中，可用来判断解码结果是否为flag
-    def haveAll(a, b):
+    def AllIn(b, a=None):  # 判断b中的字符是否都包含在a中，可用来判断解码结果是否为flag
+        if a == None:
+            a='abcdefghijklmnopqrstuvwxyz'
+            a+=a.upper()
+            a+='{}_+=0123456789'
         for i in b:
             if not i in a: return False
         return True

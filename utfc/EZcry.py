@@ -166,7 +166,6 @@ class MYB:  # 莽一波
         # print(f'm[{len(m[0])},{len(m[1])}]')
         return m
 
-
 class MCST:
     @staticmethod
     def Dc(txt=''):

@@ -23,7 +23,7 @@ def up(mn=0,ilist=['_______NoName_______']):
         print('- '*(len(wname)//2+2))
         print(f' {wname}')
         print('- '*40) 
-        cmd = f'pip3 install {wname} -U  '+m
+        cmd = f'pip3 install {wname} -U --user '+m
         os.system(cmd)
         print('\n\n')
     os.system('pip cache purge')

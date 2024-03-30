@@ -9,24 +9,27 @@ class Load(RCroDBase):
     cont = 0
     def __init__(self):
         super().__init__()
+        self.xmax=4
+        self.ymax=4
         self.qtimer.timeout.connect(self.to)
         self.qtimer.start(100)
 
     def paintEvent(self,a0):
         self.paintBeg()
         self.drwCord()
-        for i in range(360):
-            z = math.pi/180*i
-            self.Point(3- 6 * math.sin(z-math.pi/2),z,5,col.cYellow1,line=True)
-            self.Point(3 - 6 * math.sin(z + math.pi / 2), z, 5,col.cOrange1,line=True)
-        z = math.pi / 180 *self.cont +math.pi/4
-        self.Point(3 - 6 * math.sin(z+math.pi/2),z+math.pi, 10, col.cYellow3,line=True,cod=True)
-        self.Point(3 - 6 * math.sin(z + math.pi / 2), z, 10, col.cOrange3,line=True,cod=True)
-        # self.Text(r/2, z, 'r=5-4sin(z)',col=col.cgray2)
-        self.cont = (self.cont+3)%360
-        ft = self.font()
-        ft.setPointSize(20)
-        self.qp.setFont(ft)
+        self.Line(0,0,3,math.radians(30),unlim=False)
+        # for i in range(360):
+        #     z = math.pi/180*i
+        #     self.Point(3- 6 * math.sin(z-math.pi/2),z,5,col.cYellow1,line=True)
+        #     self.Point(3 - 6 * math.sin(z + math.pi / 2), z, 5,col.cOrange1,line=True)
+        # z = math.pi / 180 *self.cont +math.pi/4
+        # self.Point(3 - 6 * math.sin(z+math.pi/2),z+math.pi, 10, col.cYellow3,line=True,cod=True)
+        # self.Point(3 - 6 * math.sin(z + math.pi / 2), z, 10, col.cOrange3,line=True,cod=True)
+        # # self.Text(r/2, z, 'r=5-4sin(z)',col=col.cgray2)
+        # self.cont = (self.cont+3)%360
+        # ft = self.font()
+        # ft.setPointSize(20)
+        # self.qp.setFont(ft)
         self.qp.drawText(self.x0-90,self.y0//5 ,"数理演示程序")
         self.paintEnd()
     def to(self):

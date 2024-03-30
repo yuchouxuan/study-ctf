@@ -258,7 +258,7 @@ class RCroDBase(CroDBase):
         super().Text(r*cos(z),r*sin(z),txt,col,fz,rank=rank)
 
     def Line(self,r0,z0, r1,z1 ,size = 2, col=qt.red, style = qt.SolidLine, unlim= True,arror=False):
-        super().Line(self, r0*cos(z0), r0*sin(z0), r1*cos(z1), r1*sin(z1), size, col, style, unlim, arror)
+        super().Line(r0*cos(z0), r0*sin(z0), r1*cos(z1), r1*sin(z1), size, col, style, unlim, arror)
 
 
     def paintEvent(self, a0: QtGui.QPaintEvent) -> None:

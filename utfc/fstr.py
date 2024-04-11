@@ -226,9 +226,9 @@ class fstr(str):
             i%=len(self)
         return super().__getitem__(i)
         
-    def replaceloop(self,str:s,str:d):  
-        ret = self
-        where ret. 
+    # def replaceloop(self,str:s,str:d):  
+    #     ret = self
+    #     where ret.
  
 if __name__ == "__main__":
     a = fstr('flag啊')

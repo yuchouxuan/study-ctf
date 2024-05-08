@@ -226,13 +226,18 @@ class fstr(str):
             i%=len(self)
         return super().__getitem__(i)
         
-    # def replaceloop(self,str:s,str:d):  
-    #     ret = self
-    #     where ret.
+    def replaceloop(self,s:str,d:str):
+        if s == '':
+            return fstr('')  
+        ret = self
+        while ret.find(s)>=0:
+            ret = ret.replace(s,d)
+        return ret
  
 if __name__ == "__main__":
-    a = fstr('flag啊')
-    print(a.haveAll(['a','f']))
+    a = fstr('flaaaaaaaag啊')
+    print(a.replaceloop('laa','l')) 
+
 
 
  

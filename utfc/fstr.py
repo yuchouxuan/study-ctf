@@ -249,12 +249,14 @@ class fstr(str):
             print(e)
             return fstr('')
 
+    
+
 
 
         
  
 if __name__ == "__main__":
-    print(fstr.fromURL('http://www.baidu.com')) 
+    print(fstr.fromURL('google.com')) 
 
 
 

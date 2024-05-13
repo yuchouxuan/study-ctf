@@ -2,6 +2,7 @@ import hashlib
 from urllib import parse
 import re
 import base64 
+import requests 
 class cmd_color:
     none = "\033[0m"
     rev = '\033[7m'
@@ -89,7 +90,7 @@ class fstr(str):
         except:
             return bout
 
-    def url(self,force=False,cs='utf-8'):
+    def urlEncode(self,force=False,cs='utf-8'):
         '''url编码,force=True时,强制对所有字符编码'''
         ret =''
         if force:
@@ -100,7 +101,7 @@ class fstr(str):
         return fstr(ret.upper())
 
     @staticmethod
-    def fromurl(url):
+    def urlDecode(url):
         '''url解码'''
         return fstr(parse.unquote(url))
 
@@ -233,10 +234,27 @@ class fstr(str):
         while ret.find(s)>=0:
             ret = ret.replace(s,d)
         return ret
+    
+    @staticmethod 
+    def fromURL(url,paras={},met='get'):
+        if not url.startswith('http'):
+            url = 'http://'+url
+        try:
+            ret = requests.request(method=met,url=url,*paras)
+            try:
+                return fstr(ret.json())
+            except:
+                return fstr(ret.content)
+        except Exception as e:
+            print(e)
+            return fstr('')
+
+
+
+        
  
 if __name__ == "__main__":
-    a = fstr('flaaaaaaaag啊')
-    print(a.replaceloop('laa','l')) 
+    print(fstr.fromURL('http://www.baidu.com')) 
 
 
 

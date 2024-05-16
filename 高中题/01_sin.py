@@ -1,5 +1,5 @@
 '''
-f(x) = sin(wπ+π/6)² =0 在 (0,3π) 恰好有五个解
+f(x) = sin²(wπ+π/6) =0 在 (0,3π) 恰好有五个解
 '''
 
 import numpy as np
@@ -21,10 +21,10 @@ def rsa():
 
 rsa()
 x = np.linspace(-pi/2,4*pi,200)
-for w in np.linspace(1,2,100):
+for w in np.linspace(-2,2,200):
     y = np.sin(w*x+pi/6)
     # plt.cla()
-    plt.clf()
+    plt.cla()
     rsa()
     
     
@@ -35,15 +35,16 @@ for w in np.linspace(1,2,100):
     plt.text(3*pi,0,' 3π',color='r')
     
     zeros=0
-    for k in range(6): 
+    for k in range(-6,6): 
         x1 = (k+1/3)*pi/w
-        if x1<3*pi:
+        if x1>0 and x1<3*pi:
             plt.plot(x1,np.sin(w*x1+pi/6),'ro')
             zeros +=1
     if zeros==5:
         plt.plot(x,y,'g')
     else:
         plt.plot(x,y,'r')
-    plt.title(f'w={w:1.3} , zeros={zeros}')
-    plt.pause(0.2)
+    plt.title(f'w={w:1.3f} , zeros={zeros}')
+    plt.pause(0.1)
     # plt.show()
+plt.show()

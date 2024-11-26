@@ -68,6 +68,21 @@ cv2.ellipse(img, center, axes, rotateAngle, startAngle, endAngle, color[, thickn
         shift：坐标点小数点位数
 '''
 
+def arnold_cat(img,p1=1,p2=2):
+    N = min(img.shape[:2])
+    img_out = np.zeros_like(img)
+    for i in range(N):
+        for j in range(N):
+            img_out[(i+p1*j)%N,(i+p2*j)%N] = img[i,j] 
+    return img_out 
+    
+def getgauss(img):
+    src=img[:,:,0]
+    gauss = cv2.GaussianBlur(src,(3,3),3)
+    gaussedge = cv2.Canny(gauss,0,50)
+    ge=np.sum(gaussedge)  
+    return ge
+
 import exifread
 class imgBase:
     img = None

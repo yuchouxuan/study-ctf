@@ -245,6 +245,7 @@ class rsaQues:
     # 适用于 e很大
     def bige(n, e, c):
         d = RSAwienerHacker.hack_RSA(e, n)
+        print(d)
         return rsaQues.cdn(d, n, c)
 
     @staticmethod

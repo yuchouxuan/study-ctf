@@ -10,7 +10,7 @@ def up(mn=0,ilist=['_______NoName_______']):
 
     m=mirr[mn]
 
-    pipl = os.popen('pip list --outdate '+m).readlines()[2:]
+    pipl = os.popen('pip3 list --outdate '+m).readlines()[2:]
     print(f'OUTDATE: {len(pipl)}')
     print('- '*40)
     list(map(lambda x:print(x.replace('\n','')),pipl))
@@ -26,7 +26,7 @@ def up(mn=0,ilist=['_______NoName_______']):
         cmd = f'pip3 install {wname} -U --user '+m
         os.system(cmd)
         print('\n\n')
-    os.system('pip cache purge')
+    os.system('pip3 cache purge')
 
 
 if __name__ == '__main__':

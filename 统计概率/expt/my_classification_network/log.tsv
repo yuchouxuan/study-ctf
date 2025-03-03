@@ -1,0 +1,1 @@
+epoch	time	lr	loss	acc	fscore_macro	val_loss	val_acc	val_fscore_macro
